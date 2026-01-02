@@ -13,27 +13,35 @@
   </head>
   <body>
     <!-- HEADER -->
-    <header class="header">
-      <div class="container nav">
-        <div class="logo">JRM</div>
+<header class="navbar">
+  <div class="logo">JRM</div>
 
-        <div class="menu-toggle" id="menuToggle">☰</div>
+  <button class="menu-toggle" id="menuToggle" aria-label="Open Menu">
+    ☰
+  </button>
+</header>
 
-        <nav id="navMenu">
-          <a href="index.html" class="active">Home</a>
-          <a href="about.html">About</a>
-          <a href="mailto:jayaramjr1510@gmail.com">Contact</a>
-          <a
-            class="cv-btn"
-            href="https://drive.google.com/file/d/1XJt3IIaHGzpVND6Bc663J7BKZvtlueYU/view?usp=drive_link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Download My CV
-          </a>
-        </nav>
-      </div>
-    </header>
+<!-- Mobile Menu -->
+<nav class="mobile-menu" id="mobileMenu">
+  <button class="close-btn" id="closeMenu" aria-label="Close Menu">
+    ✕
+  </button>
+
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="mailto:your@email.com">Contact</a></li>
+    <li>
+      <a
+        href="https://drive.google.com/file/d/1XJt3IIaHGzpVND6Bc663J7BKZvtlueYU/view"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Download My CV
+      </a>
+    </li>
+  </ul>
+</nav>
 
     <!-- HERO -->
     <section class="hero">
@@ -120,3 +128,4 @@
     <script src="script.js"></script>
   </body>
 </html>
+
