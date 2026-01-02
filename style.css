@@ -286,7 +286,8 @@ nav a.active {
 /* ABOUT PAGE */
 
 .about-hero {
-  padding: 100px 0;
+  padding-top: 52px;
+  padding-bottom:100px:
 }
 
 .about-grid {
@@ -393,3 +394,4 @@ nav a.active {
     grid-template-columns: 420px 1fr;
   }
 }
+
