@@ -5,6 +5,10 @@
   text-decoration: none;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
@@ -437,4 +441,5 @@ nav a.active {
     grid-template-columns: 420px 1fr;
   }
 }
+
 
