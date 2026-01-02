@@ -46,6 +46,7 @@ img {
 .logo {
   font-weight: 700;
   font-size: 18px;
+  text-decoration: none;
 }
 
 .menu-toggle {
@@ -441,5 +442,6 @@ nav a.active {
     grid-template-columns: 420px 1fr;
   }
 }
+
 
 
