@@ -189,18 +189,38 @@ nav a.active {
 }
 
 .secondary-btn {
-  padding: 14px 52px;
-  border: 1px solid #111;
-  text-align: center;
-  text-decoration: none;
-  font-size: 14px;
+  display: inline-block;
+  margin-top: 20px;
+  padding: 10px 16px;
+  background: #222;
+  color: #fff;
+  font-size: 12px;
   border-radius: 4px;
-  color: #111;
+  text-decoration: none;
+  text-align: center;
+  cursor: pointer;
+
+  transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
 }
 
-.secondary-btn.dark {
-  background: #111;
-  color: #fff;
+.secondary-btn:hover {
+  background: #2a2a2a;
+  box-shadow: 0 0 0 1px rgba(106, 0, 255, 0.25),
+    0 0 12px rgba(106, 0, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+@keyframes softGlow {
+  0% {
+    box-shadow: 0 0 8px rgba(106, 0, 255, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 14px rgba(106, 0, 255, 0.55);
+  }
+}
+
+.secondary-btn:hover {
+  animation: softGlow 1.2s ease-in-out infinite alternate;
 }
 
 /* RESOURCES */
@@ -286,13 +306,13 @@ nav a.active {
 /* ABOUT PAGE */
 
 .about-hero {
-  padding-top: 20px;
+  padding: 20px 0px 20px 0px;
 }
 
 .about-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
+  gap: 20px;
   align-items: center;
 }
 
@@ -362,7 +382,7 @@ nav a.active {
 /* FREELANCE */
 .freelance {
   text-align: center;
-  padding: 80px 20px;
+  padding: 20px 20px;
 }
 
 .freelance h2 {
@@ -385,6 +405,29 @@ nav a.active {
   color: #fff;
   font-size: 12px;
   border-radius: 4px;
+  cursor: pointer;
+
+  transition: box-shadow 0.3s ease, transform 0.2s ease, background 0.3s ease;
+}
+
+.status-badge:hover {
+  background: #2a2a2a;
+  box-shadow: 0 0 0 1px rgba(106, 0, 255, 0.25),
+    0 0 12px rgba(106, 0, 255, 0.45);
+  transform: translateY(-1px);
+}
+
+@keyframes softGlow {
+  0% {
+    box-shadow: 0 0 8px rgba(106, 0, 255, 0.35);
+  }
+  100% {
+    box-shadow: 0 0 14px rgba(106, 0, 255, 0.55);
+  }
+}
+
+.status-badge:hover {
+  animation: softGlow 1.2s ease-in-out infinite alternate;
 }
 
 /* DESKTOP */
@@ -393,7 +436,3 @@ nav a.active {
     grid-template-columns: 420px 1fr;
   }
 }
-
-
-
-
