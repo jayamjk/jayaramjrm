@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  text-decoration: none;
 }
 
 body {
@@ -436,3 +437,4 @@ nav a.active {
     grid-template-columns: 420px 1fr;
   }
 }
+
