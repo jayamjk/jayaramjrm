@@ -11,7 +11,7 @@ document.addEventListener("DOMContentLoaded", () => {
     nav.classList.remove("active");
   });
 
-  nav.querySelectorAll("a").forEach(link => {
+  nav.querySelectorAll("a").forEach((link) => {
     link.addEventListener("click", () => {
       nav.classList.remove("active");
     });
