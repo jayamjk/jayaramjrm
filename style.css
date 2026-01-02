@@ -5,10 +5,6 @@
   text-decoration: none;
 }
 
-html {
-  scroll-behavior: smooth;
-}
-
 body {
   font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
@@ -46,7 +42,6 @@ img {
 .logo {
   font-weight: 700;
   font-size: 18px;
-  text-decoration: none;
 }
 
 .menu-toggle {
@@ -246,6 +241,101 @@ nav a.active {
   gap: 30px;
 }
 
+/* /////////////////////////////////// FIGMA POPUP ///////////////////////////////////// */
+/* FIGMA POPUP */
+.figma-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: none;
+  z-index: 999;
+}
+
+.figma-overlay.active {
+  display: block;
+}
+
+.figma-popup {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 80%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  animation: slideUp 0.35s ease;
+}
+
+/* Header */
+.figma-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 18px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.close-popup {
+  background: none;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* Body */
+.figma-body {
+  flex: 1;
+}
+
+.figma-body iframe {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+/* Footer */
+.figma-footer {
+  padding: 14px;
+  border-top: 1px solid #eee;
+  text-align: center;
+}
+
+.figma-btn {
+  display: inline-block;
+  padding: 12px 18px;
+  background: #6a00ff;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  .figma-popup {
+    width: 70%;
+    height: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px 10px 0 0;
+  }
+}
+
+/* Animation */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+/* /////////////////////////////////// FIGMA POPUP ///////////////////////////////////// */
+
 /* FOOTER */
 .footer {
   padding: 40px 0;
@@ -442,6 +532,3 @@ nav a.active {
     grid-template-columns: 420px 1fr;
   }
 }
-
-
-
