@@ -17,3 +17,27 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
+
+document.addEventListener("DOMContentLoaded", () => {
+  const openBtn = document.getElementById("openFigma");
+  const overlay = document.getElementById("figmaOverlay");
+  const closeBtn = document.getElementById("closeFigma");
+
+  openBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    overlay.classList.add("active");
+    document.body.style.overflow = "hidden";
+  });
+
+  closeBtn.addEventListener("click", () => {
+    overlay.classList.remove("active");
+    document.body.style.overflow = "";
+  });
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove("active");
+      document.body.style.overflow = "";
+    }
+  });
+});
