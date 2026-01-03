@@ -578,7 +578,7 @@ RESOURCES ================================ */
   font-size: 32px;
   background: transparent;
   border: none;
-  color: #fff;
+  color: #6a00ff;
   cursor: pointer;
   z-index: 2;
 }
@@ -925,4 +925,5 @@ RESOURCES ================================ */
     grid-template-columns: 420px 1fr;
   }
 }
+
 
