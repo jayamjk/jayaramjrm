@@ -574,7 +574,7 @@ RESOURCES ================================ */
 .pdf-close {
   position: absolute;
   top: 12px;
-  right: 16px;
+  left: 16px;
   font-size: 32px;
   background: transparent;
   border: none;
@@ -925,3 +925,4 @@ RESOURCES ================================ */
     grid-template-columns: 420px 1fr;
   }
 }
+
