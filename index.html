@@ -9,6 +9,11 @@
       href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -17,13 +22,15 @@
       <div class="container nav">
         <div class="logo">JRM</div>
 
-        <div class="menu-toggle" id="menuToggle">☰</div>
+        <div class="menu-toggle" id="menuToggle">
+          <i class="bi bi-list"></i>
+        </div>
 
         <nav id="navMenu">
           <div class="close-menu" id="closeMenu">✕</div>
           <a href="index.html" class="active">Home</a>
           <a href="about.html">About</a>
-          <a href="mailto:jayaramjr1510@gmail.com">Contact</a>
+          <a href="#" id="openContact">Contact</a>
           <a
             class="cv-btn"
             href="https://drive.google.com/file/d/1XJt3IIaHGzpVND6Bc663J7BKZvtlueYU/view?usp=drive_link"
@@ -60,49 +67,193 @@
         <p class="section-label">Portfolio</p>
         <h2>Case Studies</h2>
 
+        <!-- Case Studies 1 -->
         <div class="case-grid">
           <div class="case-card">
-            <img src="Image/Mat.jpg" alt="" />
+            <a
+              href="https://www.behance.net/gallery/148802113/Rug-manufacturing-website-UX-Case-Study-B2B"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="Image/Mat.jpg" alt=""
+            /></a>
             <div class="case-info">
               <h4>Rug Manufacturing Website UX Case Study | B2B</h4>
-              <a href="#">View Case study →</a>
+              <a
+                href="https://www.behance.net/gallery/148802113/Rug-manufacturing-website-UX-Case-Study-B2B"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="case-link"
+                >View Case Study on Behance
+                <span class="mobile-icon"
+                  ><i class="bi bi-arrow-right-short"></i></span
+              ></a>
             </div>
           </div>
 
+          <!-- Case Studies 2 -->
           <div class="case-card">
-            <img src="Image/Vape.jpg" alt="" />
+            <a
+              href="https://www.behance.net/gallery/205248017/Vape-website-UX-Case-Study-B2C"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="Image/Vape.jpg" alt=""
+            /></a>
             <div class="case-info">
               <h4>Vape E-Commerce Website UX Case Study | B2C</h4>
-              <a href="#">View Case study →</a>
+              <a
+                href="https://www.behance.net/gallery/205248017/Vape-website-UX-Case-Study-B2C"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View Case Study on Behance
+                <span class="mobile-icon">
+                  <i class="bi bi-arrow-right-short"></i>
+                </span>
+              </a>
             </div>
           </div>
 
+          <!-- Case Studies 3 -->
           <div class="case-card">
-            <img src="Image/popsuite.jpg" alt="" />
+            <a
+              href="https://www.behance.net/gallery/207100577/Multi-Popup-Widget-POPSUITE-Saas-Project"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img src="Image/popsuite.jpg" alt=""
+            /></a>
             <div class="case-info">
-              <h4>Pop Suite Web App | SaaS | UI Design</h4>
-              <a href="#">View UI Design →</a>
+              <h4>Multi-Popup Widget | POPSUITE | Saas Project</h4>
+              <a
+                href="https://www.behance.net/gallery/207100577/Multi-Popup-Widget-POPSUITE-Saas-Project"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                View UI Design on Behance
+                <span class="mobile-icon">
+                  <i class="bi bi-arrow-right-short"></i>
+                </span>
+              </a>
             </div>
           </div>
 
+          <!-- Case Studies 4 -->
           <div class="case-card">
-            <img src="Image/URL.jpg" alt="" />
+            <a
+              href="#"
+              class="case-link open-figma"
+              data-embed="https://embed.figma.com/design/iRLmQwvKhadVhlinLoFEqD/Hotel-Booking-by-Jayaram-K--4-years-?node-id=0-1&embed-host=share"
+            >
+              <img src="Image/Hotel.jpg" alt=""
+            /></a>
+            <div class="case-info">
+              <h4>Hotel Booking Mobile App | UXUI Design</h4>
+              <a
+                href="#"
+                class="case-link open-figma"
+                data-embed="https://embed.figma.com/design/iRLmQwvKhadVhlinLoFEqD/Hotel-Booking-by-Jayaram-K--4-years-?node-id=0-1&embed-host=share"
+              >
+                Preview & Open Fig File
+                <span class="mobile-icon">
+                  <i class="bi bi-arrow-right-short"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Case Studies 5 -->
+          <div class="case-card">
+            <a
+              href="#"
+              class="case-link open-figma"
+              data-embed="https://embed.figma.com/design/6EPP2o4Pc7MgtWq5o2bfuU/Tech-Service-Landing-page?node-id=0-1&embed-host=share"
+            >
+              <img src="Image/Tech.jpg" alt=""
+            /></a>
+            <div class="case-info">
+              <h4>Tech Service Landing Page UI Design</h4>
+              <a
+                href="#"
+                class="case-link open-figma"
+                data-embed="https://embed.figma.com/design/6EPP2o4Pc7MgtWq5o2bfuU/Tech-Service-Landing-page?node-id=0-1&embed-host=share"
+              >
+                Preview & Open Fig File
+                <span class="mobile-icon">
+                  <i class="bi bi-arrow-right-short"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Case Studies 6 -->
+          <div class="case-card">
+            <a
+              href="#"
+              class="case-link open-figma"
+              data-embed="https://embed.figma.com/design/ywdq8A78idMcVoiwFf4V4c/Dashboard-UI?node-id=0-1&embed-host=share>"
+            >
+              <img src="Image/Dashboard.jpg" alt=""
+            /></a>
+            <div class="case-info">
+              <h4>Dashboard UI Design for LMS & PMS</h4>
+              <a
+                href="#"
+                class="case-link open-figma"
+                data-embed="https://embed.figma.com/design/ywdq8A78idMcVoiwFf4V4c/Dashboard-UI?node-id=0-1&embed-host=share>"
+              >
+                Preview & Open Fig File
+                <span class="mobile-icon">
+                  <i class="bi bi-arrow-right-short"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Case Studies 7 -->
+          <div class="case-card">
+            <a
+              href="#"
+              class="case-link open-figma"
+              data-embed="https://embed.figma.com/design/VHEc7pHQFqiuMaCGKRzL5R/Socxly.com?node-id=0-1&embed-host=share"
+            >
+              <img src="Image/URL.jpg" alt=""
+            /></a>
 
             <div class="case-info">
-              <h4>Socxly: URL Shortener & CTA Banners | SaaS</h4>
-              <a href="#" class="open-figma" id="openFigma">Open File →</a>
+              <h4>URL Shortener & CTA Banners | SaaS</h4>
+              <a
+                href="#"
+                class="case-link open-figma"
+                data-embed="https://embed.figma.com/design/VHEc7pHQFqiuMaCGKRzL5R/Socxly.com?node-id=0-1&embed-host=share"
+              >
+                Preview & Open Fig File
+                <span class="mobile-icon">
+                  <i class="bi bi-arrow-right-short"></i>
+                </span>
+              </a>
             </div>
           </div>
         </div>
 
         <div class="dual-buttons">
           <a
+            href="#"
+            class="case-link open-pdf secondary-btn dark"
+            data-embed="Image/Graphic_Designs.pdf#toolbar=0&navpanes=0&scrollbar=1"
+          >
+            View Creative Works
+          </a>
+
+          <a
             class="secondary-btn dark"
             href="https://www.behance.net/jayaramjrm"
             target="_blank"
             rel="noopener noreferrer"
-            >View All My Behance Work</a
           >
+            View All My Behance Work
+          </a>
         </div>
       </div>
     </section>
@@ -113,7 +264,18 @@
         <h2>My Resources</h2>
 
         <div class="resource-grid">
-          <a href="#"><img src="Image/Security.jpg" alt="" /></a>
+          <a
+            href="https://iconscout.com/contributors/illustro-studio/3d-illustrations"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img src="Image/Security.jpg" alt=""
+          /></a>
+          <a
+            href="https://iconscout.com/contributors/illustro-studio/3d-illustrations"
+            target="_blank"
+            rel="noopener noreferrer"
+            ><img src="Image/BF sale.jpg" alt=""
+          /></a>
           <a href="#"><img src="Image/BF sale.jpg" alt="" /></a>
         </div>
       </div>
@@ -130,23 +292,21 @@
     <div class="figma-overlay" id="figmaOverlay">
       <div class="figma-popup">
         <div class="figma-header">
-          <span>Socxly – UI Design (Figma)</span>
+          <span>UI Design Preview</span>
           <button class="close-popup" id="closeFigma">✕</button>
         </div>
 
         <div class="figma-body">
           <iframe
+            id="figmaFrame"
             style="border: 1px solid rgba(0, 0, 0, 0.1)"
-            width="800"
-            height="450"
-            src="https://embed.figma.com/design/VHEc7pHQFqiuMaCGKRzL5R/Socxly.com?node-id=0-1&embed-host=share"
             allowfullscreen
           ></iframe>
         </div>
 
         <div class="figma-footer">
           <a
-            href="https://www.figma.com/design/VHEc7pHQFqiuMaCGKRzL5R/Socxly.com?node-id=0-1&t=7EisCA1wmzIohH7B-1"
+            id="figmaExternal"
             target="_blank"
             rel="noopener noreferrer"
             class="figma-btn"
@@ -154,6 +314,43 @@
             Open in Figma →
           </a>
         </div>
+      </div>
+    </div>
+
+    <!-- CONTACT POPUP -->
+    <div class="contact-overlay" id="contactOverlay">
+      <div class="contact-popup">
+        <div class="contact-header">
+          <h3>Contact Me</h3>
+          <button class="close-popup" id="closeContact">✕</button>
+        </div>
+
+        <div class="contact-options">
+          <a href="mailto:jayaramjr1510@gmail.com" class="contact-item">
+            <i class="bi bi-envelope"></i>
+            <span>Email</span>
+            <p class="contact-note">Jayaramjr1510@gmail.com</p>
+          </a>
+
+          <a
+            href="https://wa.me/919999999999"
+            target="_blank"
+            class="contact-item"
+          >
+            <i class="bi bi-whatsapp"></i>
+            <span>WhatsApp</span>
+            <p class="contact-note">Please avoid calls; text messages only.</p>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- PDF POPUP -->
+    <div class="pdf-overlay" id="pdfOverlay">
+      <div class="pdf-modal">
+        <button class="pdf-close" id="closePdf">&times;</button>
+
+        <iframe id="pdfFrame" title="PDF Preview" loading="lazy"></iframe>
       </div>
     </div>
   </body>
