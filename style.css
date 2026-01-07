@@ -562,6 +562,27 @@ RESOURCES ================================ */
   overflow: hidden;
 }
 
+.pdf-footer {
+  padding: 16px;
+  text-align: center;
+  border-top: 1px solid #eee;
+}
+
+.pdf-download-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: #000;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.pdf-download-btn:hover {
+  opacity: 0.85;
+}
+
+
 /* IFRAME */
 .pdf-modal iframe {
   width: 100%;
@@ -925,5 +946,6 @@ RESOURCES ================================ */
     grid-template-columns: 420px 1fr;
   }
 }
+
 
 
