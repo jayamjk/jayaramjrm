@@ -3,35 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>About | Jayaram K</title>
+    <title>Jayaram | Senior UX/UI Designer</title>
 
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <!-- HEADER (Reuse Same Navbar) 
-    <header class="header">
-      <div class="container nav">
-        <a href="index.html"><div class="logo">JRM</div></a>
-
-        <div class="menu-toggle" id="menuToggle">☰</div>
-
-        <nav id="navMenu">
-          <div class="close-menu" id="closeMenu">✕</div>
-          <a href="index.html">Home</a>
-          <a href="about.html" class="active">About</a>
-          <a href="mailto:jayaramjr1510@gmail.com">Contact</a>
-          <a
-            class="cv-btn"
-            href="https://drive.google.com/file/d/1XJt3IIaHGzpVND6Bc663J7BKZvtlueYU/view?usp=drive_link"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Download My CV
-          </a>
-        </nav>
-      </div>
-    </header>-->
-
     <!-- HEADER -->
     <header class="header">
       <div class="container nav">
@@ -46,11 +31,10 @@
           <a href="index.html">Home</a>
           <a href="about.html" class="active">About</a>
           <a href="#" id="openContact">Contact</a>
-          <a
-            class="cv-btn"
-            href="https://drive.google.com/file/d/1XJt3IIaHGzpVND6Bc663J7BKZvtlueYU/view?usp=drive_link"
-            target="_blank"
-            rel="noopener noreferrer"
+         <a
+            href="#"
+            class="case-link open-pdf"
+            data-embed="Image/Graphic_Designs.pdf#toolbar=0&navpanes=0&scrollbar=1"
           >
             Download My CV
           </a>
@@ -177,8 +161,39 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-      <p>© 2026 Jayaram K • UX/UI Designer</p>
+      <p>© 2026 Jayaram • Senior UX/UI Designer</p>
     </footer>
+
+    <script src="script.js"></script>
+
+    <!-- FIGMA POPUP -->
+    <div class="figma-overlay" id="figmaOverlay">
+      <div class="figma-popup">
+        <div class="figma-header">
+          <span>UI Design Preview</span>
+          <button class="close-popup" id="closeFigma">✕</button>
+        </div>
+
+        <div class="figma-body">
+          <iframe
+            id="figmaFrame"
+            style="border: 1px solid rgba(0, 0, 0, 0.1)"
+            allowfullscreen
+          ></iframe>
+        </div>
+
+        <div class="figma-footer">
+          <a
+            id="figmaExternal"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="figma-btn"
+          >
+            Open in Figma →
+          </a>
+        </div>
+      </div>
+    </div>
 
     <!-- CONTACT POPUP -->
     <div class="contact-overlay" id="contactOverlay">
@@ -208,6 +223,13 @@
       </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- PDF POPUP -->
+    <div class="pdf-overlay" id="pdfOverlay">
+      <div class="pdf-modal">
+        <button class="pdf-close" id="closePdf">&times;</button>
+
+        <iframe id="pdfFrame" title="PDF Preview" loading="lazy"></iframe>
+      </div>
+    </div>
   </body>
 </html>
