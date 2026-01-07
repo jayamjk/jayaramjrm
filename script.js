@@ -51,20 +51,24 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* PDF PREVIEW POPUP */
-  document.querySelectorAll(".open-pdf").forEach((btn) => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
+ /* PDF PREVIEW POPUP */
+document.querySelectorAll(".open-pdf").forEach((btn) => {
+  btn.addEventListener("click", (e) => {
+    e.preventDefault();
 
-      const pdfUrl = btn.dataset.embed;
-      const overlay = document.getElementById("pdfOverlay");
-      const iframe = document.getElementById("pdfFrame");
+    const pdfUrl = btn.dataset.embed;
+    const overlay = document.getElementById("pdfOverlay");
+    const iframe = document.getElementById("pdfFrame");
+    const downloadBtn = document.getElementById("downloadPdfBtn");
 
-      iframe.src = pdfUrl;
-      overlay.classList.add("active");
-      document.body.style.overflow = "hidden";
-    });
+    iframe.src = pdfUrl;
+    downloadBtn.href = pdfUrl.split("#")[0]; // clean download URL
+
+    overlay.classList.add("active");
+    document.body.style.overflow = "hidden";
   });
+});
+
 
   /* CLOSE BUTTON */
   document.getElementById("closePdf").addEventListener("click", () => {
@@ -111,3 +115,4 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
