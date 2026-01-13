@@ -351,8 +351,8 @@ nav a.active {
 }
 
 .second-secondary-btn:hover {
-  background: #6a00ff;
-  color: #fff;
+  background: #2a2a2a;
+  color: #ffffff;
   box-shadow: 0 0 0 1px rgba(106, 0, 255, 0.25),
     0 0 12px rgba(106, 0, 255, 0.45);
   transform: translateY(-1px);
