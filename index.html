@@ -374,18 +374,19 @@
     
  <!--vistor count-->
     <script>
-      fetch("https://api.countapi.xyz/hit/jayamjk-github-jayaramjrm/home")
-        .then((res) => res.json())
-        .then((data) => {
-          document.getElementById("visitorCount").innerText = data.value;
-        })
-        .catch(() => {
-          document.getElementById("visitorCount").innerText = "—";
-        });
-    </script>
+  fetch("https://api.visitorbadge.io/api/visitors?path=jayamjk-github-jayaramjrm")
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("visitorCount").innerText = data.total;
+    })
+    .catch(() => {
+      document.getElementById("visitorCount").innerText = "-";
+    });
+</script>
     
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   </body>
 </html>
+
 
 
