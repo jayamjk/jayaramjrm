@@ -374,7 +374,8 @@
     
  <!--vistor count-->
     <script>
-  fetch("https://api.visitorbadge.io/api/visitors?path=jayamjk-github-jayaramjrm")
+ fetch("https://api.visitorbadge.io/api/visitors?path=jayamjk-github-jayaramjrm")
+
     .then(res => res.json())
     .then(data => {
       document.getElementById("visitorCount").innerText = data.total;
@@ -387,6 +388,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   </body>
 </html>
+
 
 
 
