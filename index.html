@@ -298,7 +298,10 @@
 
     <!-- FOOTER -->
     <footer class="footer">
-      <p>© 2026 Jayaram • Senior UX/UI Designer</p>
+      <p class="visitor-counter">
+        © 2026 Jayaram • Senior UX/UI Designer
+        <b style="color: #fff" id="visitorCount">Loading...</b>
+      </p>
     </footer>
 
     <script src="script.js"></script>
@@ -368,7 +371,20 @@
         <iframe id="pdfFrame" title="PDF Preview" loading="lazy"></iframe>
       </div>
     </div>
-
+    
+ <!--vistor count-->
+    <script>
+      fetch("https://api.countapi.xyz/hit/jayamjk-github-jayaramjrm/")
+        .then((res) => res.json())
+        .then((data) => {
+          document.getElementById("visitorCount").innerText = data.value;
+        })
+        .catch(() => {
+          document.getElementById("visitorCount").innerText = "—";
+        });
+    </script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   </body>
 </html>
+
