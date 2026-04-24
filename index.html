@@ -46,11 +46,29 @@
     <!-- HERO -->
     <section class="hero">
       <div class="container hero-content">
-        <h1>Hi, I'm <span>Jayaram</span></h1>
+        <h1>
+          Hi, I'm <span>Jayaram</span
+          ><span class="hero-bubble-wrapper">
+            <div class="hero-bubble-tooltip">
+              <p>
+                Open source design system <strong>v1.0</strong> — under
+                development
+              </p>
+              <a
+                class="case-link open-figma bubble-view-btn"
+                data-embed="https://embed.figma.com/design/YhJ8PZEzysPMTo5KS3xeea/Design-System-Main?node-id=20-5047&embed-host=share"
+                >View →</a
+              >
+            </div>
+            <div class="hero-bubble-trigger">
+              <span class="bubble-dot"></span>
+            </div>
+          </span>
+        </h1>
         <h3>Senior UX/UI Designer</h3>
 
         <p>
-          I’m a multidisciplinary Senior UX/UI Designer with 5+ years of
+          I'm a multidisciplinary Senior UX/UI Designer with 5+ years of
           experience creating intuitive, engaging, and user-focused digital
           experiences. I specialize in UX research, prototyping, and front-end
           collaboration, and bring designs to life through high-quality 2D and
@@ -192,7 +210,7 @@
             <a
               href="#"
               class="case-link open-figma"
-              data-embed="https://embed.figma.com/design/ywdq8A78idMcVoiwFf4V4c/Dashboard-UI?node-id=0-1&embed-host=share>"
+              data-embed="https://embed.figma.com/design/ywdq8A78idMcVoiwFf4V4c/Dashboard-UI?node-id=0-1&embed-host=share"
             >
               <img src="Image/Dashboard.jpg" alt=""
             /></a>
@@ -201,7 +219,7 @@
               <a
                 href="#"
                 class="case-link open-figma"
-                data-embed="https://embed.figma.com/design/ywdq8A78idMcVoiwFf4V4c/Dashboard-UI?node-id=0-1&embed-host=share>"
+                data-embed="https://embed.figma.com/design/ywdq8A78idMcVoiwFf4V4c/Dashboard-UI?node-id=0-1&embed-host=share"
               >
                 Preview & Open Fig File
                 <span class="mobile-icon">
@@ -235,7 +253,8 @@
               </a>
             </div>
           </div>
-           <!-- Case Studies 8 -->
+
+          <!-- Case Studies 8 -->
           <div class="case-card">
             <a
               href="#"
@@ -260,7 +279,6 @@
             </div>
           </div>
         </div>
-        </div>
 
         <div class="dual-buttons">
           <a
@@ -271,16 +289,6 @@
           >
             View Creative Works
           </a>
-
-          <!-- <a
-            href="#"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="case-link open-pdf second-secondary-btn dark"
-            data-embed="Image/Graphic_Design.pdf#toolbar=0&navpanes=0&scrollbar=1"
-          >
-            View Creative Works
-          </a>-->
 
           <a
             class="secondary-btn dark"
@@ -376,7 +384,7 @@
           </a>
 
           <a
-            href="https://wa.me/+918778723251"
+            href="https://wa.me/919999999999"
             target="_blank"
             class="contact-item"
           >
@@ -392,28 +400,24 @@
     <div class="pdf-overlay" id="pdfOverlay">
       <div class="pdf-modal">
         <button class="pdf-close" id="closePdf">&times;</button>
-
         <iframe id="pdfFrame" title="PDF Preview" loading="lazy"></iframe>
       </div>
     </div>
-    
- <!--vistor count-->
-    <script>
- fetch("https://api.visitorbadge.io/api/visitors?path=jayamjk-github-jayaramjrm")
 
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("visitorCount").innerText = data.total;
-    })
-    .catch(() => {
-      document.getElementById("visitorCount").innerText = "-";
-    });
-</script>
-    
+    <!--visitor count-->
+    <script>
+      fetch(
+        "https://api.visitorbadge.io/api/visitors?path=jayamjk-github-jayaramjrm",
+      )
+        .then((res) => res.json())
+        .then((data) => {
+          document.getElementById("visitorCount").innerText = data.total;
+        })
+        .catch(() => {
+          document.getElementById("visitorCount").innerText = "-";
+        });
+    </script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   </body>
 </html>
-
-
-
-
