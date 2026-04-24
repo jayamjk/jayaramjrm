@@ -111,3 +111,17 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+// Hero bubble tap toggle
+const bubbleWrapper = document.querySelector(".hero-bubble-wrapper");
+const bubbleTrigger = document.querySelector(".hero-bubble-trigger");
+const bubbleTooltip = document.querySelector(".hero-bubble-tooltip");
+
+bubbleTrigger.addEventListener("click", (e) => {
+  e.stopPropagation();
+  const isOpen = bubbleTooltip.classList.toggle("bubble-open");
+});
+
+document.addEventListener("click", () => {
+  bubbleTooltip.classList.remove("bubble-open");
+});
+
