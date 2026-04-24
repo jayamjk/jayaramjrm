@@ -321,6 +321,39 @@ nav a.active {
     width: 170px;
   }
 }
+
+/* Mobile — absolute top-right corner */
+@media (max-width: 767px) {
+  .hero h1 {
+    display: block;
+  }
+
+  .hero-bubble-wrapper {
+    position: absolute;
+    top: -30px;
+    right: 0;
+    margin-left: 0;
+    vertical-align: unset;
+    z-index: 5; /* above the nav overlay */
+  }
+
+  .hero-bubble-tooltip {
+    position: absolute;
+    /* Opens BELOW the trigger instead of above */
+    top: calc(100% + 10px);
+    transform-origin: right center;
+    bottom: auto;
+    right: 0;
+    width: 170px;
+    /* Tail points UP toward the trigger */
+    border-radius: 4px 14px 14px 14px;
+  }
+}
+
+.hero-bubble-tooltip.bubble-open {
+  transform-origin: top right;
+}
+
 /* PORTFOLIO */
 /* ===============================
    PORTFOLIO
