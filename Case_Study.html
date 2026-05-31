@@ -1,0 +1,2239 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The Black Hole — A UX Research Case Study on Parcel Delivery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Hanken+Grotesk:wght@300..800&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --paper: #efe8da;
+        --paper-2: #f6f1e7;
+        --card: #fbf8f0;
+        --ink: #211d17;
+        --ink-soft: #544d40;
+        --ink-faint: #8a8170;
+        --accent: #d2452a; /* postal vermilion / FRAGILE stamp */
+        --accent-deep: #a8311c;
+        --postal: #243f5e; /* postal navy */
+        --good: #5e7a45; /* relief green */
+        --line: #211d17;
+        --line-soft: rgba(33, 29, 23, 0.16);
+        --shadow: 18px 22px 0 rgba(33, 29, 23, 0.08);
+        --maxw: 1180px;
+        --mono: "Space Mono", monospace;
+        --disp: "Fraunces", Georgia, serif;
+        --body: "Hanken Grotesk", system-ui, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: var(--body);
+        background: var(--paper);
+        color: var(--ink);
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+        background-image: radial-gradient(
+          rgba(33, 29, 23, 0.035) 1px,
+          transparent 1px
+        );
+        background-size: 22px 22px;
+      }
+      .wrap {
+        max-width: var(--maxw);
+        margin: 0 auto;
+        padding: 0 28px;
+      }
+
+      /* ---------- TYPE ---------- */
+      h1,
+      h2,
+      h3 {
+        font-family: var(--disp);
+        font-weight: 600;
+        line-height: 1.02;
+        letter-spacing: -0.02em;
+      }
+      .mono {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.28em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      /* ---------- TOP BAR / NAV ---------- */
+      .topbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 50;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 28px;
+        background: rgba(239, 232, 218, 0.82);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .brand {
+        font-family: var(--mono);
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 0.14em;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+      }
+      .brand .dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 50%;
+        background: var(--accent);
+        display: inline-block;
+      }
+      .navlinks {
+        display: flex;
+        gap: 22px;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+      .navlinks a {
+        color: var(--ink-soft);
+        text-decoration: none;
+        transition: color 0.2s;
+      }
+      .navlinks a:hover {
+        color: var(--accent);
+      }
+      .progress {
+        position: fixed;
+        top: 0;
+        left: 0;
+        height: 3px;
+        background: var(--accent);
+        width: 0;
+        z-index: 60;
+      }
+      @media (max-width: 760px) {
+        .navlinks {
+          display: none;
+        }
+      }
+
+      /* ---------- SECTION SHELL ---------- */
+      section {
+        padding: 96px 0;
+        position: relative;
+      }
+      .sec-tag {
+        display: flex;
+        align-items: baseline;
+        gap: 16px;
+        margin-bottom: 34px;
+      }
+      .sec-num {
+        font-family: var(--mono);
+        font-size: 0.78rem;
+        color: var(--accent);
+        font-weight: 700;
+        letter-spacing: 0.1em;
+      }
+      .sec-head {
+        font-size: clamp(2rem, 5vw, 3.3rem);
+        max-width: 16ch;
+        margin-bottom: 52px;
+      }
+      .sec-intro {
+        font-size: 1.12rem;
+        color: var(--ink-soft);
+        max-width: 60ch;
+        margin-top: 18px;
+      }
+      .divider {
+        height: 1px;
+        background: var(--line-soft);
+        max-width: var(--maxw);
+        margin: 0 auto;
+      }
+
+      /* reveal */
+      .reveal {
+        opacity: 0;
+        transform: translateY(26px);
+        transition:
+          opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1),
+          transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: none;
+      }
+
+      /* ---------- HERO ---------- */
+      .hero {
+        padding: 150px 0 70px;
+        position: relative;
+      }
+      .hero-stamp {
+        position: absolute;
+        top: 120px;
+        right: 5%;
+        transform: rotate(11deg);
+        z-index: 1;
+      }
+      @media (max-width: 900px) {
+        .hero-stamp {
+          position: static;
+          transform: rotate(-4deg);
+          margin: 0 0 30px;
+        }
+      }
+      .stamp {
+        width: 152px;
+        height: 152px;
+        border: 3px double var(--accent);
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: var(--accent);
+        text-align: center;
+        font-family: var(--mono);
+        transform: rotate(-6deg);
+        box-shadow: inset 0 0 0 2px rgba(210, 69, 42, 0.25);
+      }
+      .stamp b {
+        font-size: 1.5rem;
+        letter-spacing: 0.04em;
+        line-height: 1;
+        font-weight: 700;
+      }
+      .stamp span {
+        font-size: 0.55rem;
+        letter-spacing: 0.22em;
+        margin-top: 6px;
+      }
+      .hero h1 {
+        font-size: clamp(2.7rem, 8vw, 6rem);
+        font-weight: 600;
+        letter-spacing: -0.03em;
+        max-width: 18ch;
+      }
+      .hero h1 em {
+        font-style: italic;
+        color: var(--accent);
+      }
+      .hero-sub {
+        font-size: 1.3rem;
+        color: var(--ink-soft);
+        max-width: 54ch;
+        margin-top: 26px;
+        line-height: 1.5;
+      }
+      .hero-eyebrow {
+        margin-bottom: 26px;
+      }
+
+      /* shipping label meta */
+      .label {
+        margin-top: 54px;
+        background: var(--card);
+        border: 2px solid var(--line);
+        box-shadow: var(--shadow);
+        max-width: 680px;
+        position: relative;
+      }
+      .label::before {
+        content: "";
+        position: absolute;
+        inset: 6px;
+        border: 1px dashed var(--line-soft);
+        pointer-events: none;
+      }
+      .label-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 20px;
+        border-bottom: 2px solid var(--line);
+        background: var(--ink);
+        color: var(--paper-2);
+      }
+      .label-top .mono {
+        color: var(--paper-2);
+      }
+      .barcode {
+        display: flex;
+        gap: 2px;
+        align-items: flex-end;
+        height: 26px;
+      }
+      .barcode i {
+        display: block;
+        width: 2px;
+        height: 100%;
+        background: var(--paper-2);
+      }
+      .label-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+      }
+      .label-grid div {
+        padding: 16px 20px;
+        border-right: 1px dashed var(--line-soft);
+        border-bottom: 1px dashed var(--line-soft);
+      }
+      .label-grid div:nth-child(2n) {
+        border-right: none;
+      }
+      .label-grid .k {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .label-grid .v {
+        font-size: 1.02rem;
+        font-weight: 600;
+        margin-top: 3px;
+      }
+      @media (max-width: 560px) {
+        .label-grid {
+          grid-template-columns: 1fr;
+        }
+        .label-grid div {
+          border-right: none;
+        }
+      }
+
+      /* ---------- PROCESS STRIP ---------- */
+      .process {
+        background: var(--ink);
+        color: var(--paper-2);
+        padding: 70px 0;
+      }
+      .process .eyebrow {
+        color: #e89b86;
+      }
+      .process h2 {
+        color: var(--paper-2);
+        font-size: clamp(1.7rem, 4vw, 2.6rem);
+        margin: 14px 0 40px;
+        max-width: 24ch;
+      }
+      .steps {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0;
+        border-top: 1px solid rgba(246, 241, 231, 0.2);
+      }
+      .step {
+        padding: 26px 22px 26px 12px;
+        border-right: 1px solid rgba(246, 241, 231, 0.14);
+        position: relative;
+      }
+      .step:last-child {
+        border-right: none;
+      }
+      .step .n {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: #e89b86;
+        letter-spacing: 0.14em;
+      }
+      .step h3 {
+        color: var(--paper-2);
+        font-size: 1.25rem;
+        margin: 10px 0 8px;
+      }
+      .step p {
+        font-size: 0.86rem;
+        color: rgba(246, 241, 231, 0.72);
+      }
+      .step.active::after {
+        content: "";
+        position: absolute;
+        top: -1px;
+        left: 0;
+        width: 46px;
+        height: 3px;
+        background: var(--accent);
+      }
+      .step.dim {
+        opacity: 0.42;
+      }
+      @media (max-width: 820px) {
+        .steps {
+          grid-template-columns: 1fr 1fr;
+        }
+        .step {
+          border-bottom: 1px solid rgba(246, 241, 231, 0.14);
+        }
+      }
+      @media (max-width: 480px) {
+        .steps {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ---------- INTERVIEW SCRIPT ---------- */
+      .themes {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+        margin-top: 10px;
+      }
+      @media (max-width: 760px) {
+        .themes {
+          grid-template-columns: 1fr;
+        }
+      }
+      .theme {
+        background: var(--card);
+        border: 1.5px solid var(--line);
+        padding: 26px 26px 30px;
+        position: relative;
+        box-shadow: 6px 8px 0 rgba(33, 29, 23, 0.06);
+      }
+      .theme .badge {
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--card);
+        background: var(--postal);
+        padding: 4px 10px;
+        display: inline-block;
+      }
+      .theme h3 {
+        font-size: 1.35rem;
+        margin: 16px 0 14px;
+      }
+      .theme ul {
+        list-style: none;
+      }
+      .theme li {
+        padding: 11px 0 11px 26px;
+        border-top: 1px dashed var(--line-soft);
+        position: relative;
+        color: var(--ink-soft);
+        font-size: 0.98rem;
+      }
+      .theme li:first-of-type {
+        border-top: none;
+      }
+      .theme li::before {
+        content: "?";
+        position: absolute;
+        left: 0;
+        top: 11px;
+        font-family: var(--mono);
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .theme.span2 {
+        grid-column: 1/-1;
+      }
+
+      /* ---------- RAW OBSERVATIONS ---------- */
+      .obs-list {
+        margin-top: 8px;
+        border-top: 2px solid var(--line);
+      }
+      .obs {
+        display: grid;
+        grid-template-columns: 64px 1fr 320px;
+        gap: 24px;
+        align-items: center;
+        padding: 22px 4px;
+        border-bottom: 1px dashed var(--line-soft);
+      }
+      .obs .idx {
+        font-family: var(--mono);
+        font-size: 0.8rem;
+        color: var(--ink-faint);
+      }
+      .obs .raw {
+        font-size: 1.04rem;
+        line-height: 1.45;
+      }
+      .obs .need {
+        justify-self: start;
+        background: var(--paper-2);
+        border: 1.5px solid var(--accent);
+        color: var(--accent-deep);
+        font-family: var(--mono);
+        font-size: 0.74rem;
+        letter-spacing: 0.04em;
+        padding: 8px 14px;
+        border-radius: 2px;
+        font-weight: 700;
+        text-transform: uppercase;
+        line-height: 1.3;
+      }
+      @media (max-width: 820px) {
+        .obs {
+          grid-template-columns: 40px 1fr;
+          gap: 6px 14px;
+        }
+        .obs .need {
+          grid-column: 2;
+          margin-top: 10px;
+        }
+      }
+      .obs.hidden-obs {
+        display: none;
+      }
+      .obs-list.expanded .obs.hidden-obs {
+        display: grid;
+      }
+      @media (max-width: 820px) {
+        .obs-list.expanded .obs.hidden-obs {
+          display: grid;
+        }
+      }
+      .viewmore-wrap {
+        display: flex;
+        justify-content: center;
+        margin-top: 34px;
+      }
+      .viewmore {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        font-weight: 700;
+        color: var(--ink);
+        background: var(--card);
+        border: 1.5px solid var(--line);
+        padding: 14px 30px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        box-shadow: 6px 8px 0 rgba(33, 29, 23, 0.08);
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s,
+          background 0.2s;
+      }
+      .viewmore:hover {
+        transform: translate(2px, 2px);
+        box-shadow: 3px 4px 0 rgba(33, 29, 23, 0.08);
+        background: var(--paper-2);
+      }
+      .viewmore .arw {
+        transition: transform 0.25s;
+        color: var(--accent);
+        font-size: 0.9rem;
+      }
+      .obs-list.expanded ~ .viewmore-wrap .viewmore .arw {
+        transform: rotate(180deg);
+      }
+      .viewmore .cnt {
+        color: var(--ink-faint);
+      }
+
+      /* ---------- CLUSTERS ---------- */
+      .clusters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 10px;
+      }
+      @media (max-width: 820px) {
+        .clusters {
+          grid-template-columns: 1fr;
+        }
+      }
+      .cluster {
+        background: var(--card);
+        border: 1.5px solid var(--line);
+        box-shadow: var(--shadow);
+        position: relative;
+        overflow: hidden;
+      }
+      .cluster.feature {
+        grid-column: 1/-1;
+      }
+      .cluster-top {
+        padding: 24px 26px 18px;
+        border-bottom: 2px solid var(--line);
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .cluster h3 {
+        font-size: 1.55rem;
+        max-width: 18ch;
+        font-style: italic;
+        font-weight: 500;
+      }
+      .cluster .meta {
+        text-align: right;
+        flex-shrink: 0;
+      }
+      .pri {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.14em;
+        padding: 4px 9px;
+        color: #fff;
+        display: inline-block;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .pri.p1 {
+        background: var(--accent);
+      }
+      .pri.p2 {
+        background: var(--postal);
+      }
+      .pri.p3 {
+        background: var(--ink-faint);
+      }
+      .count {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        color: var(--ink-faint);
+        margin-top: 8px;
+      }
+      .cluster ul {
+        list-style: none;
+        padding: 20px 26px 26px;
+      }
+      .cluster li {
+        position: relative;
+        padding: 9px 0 9px 22px;
+        font-size: 0.94rem;
+        color: var(--ink-soft);
+        border-top: 1px dashed var(--line-soft);
+      }
+      .cluster li:first-child {
+        border-top: none;
+      }
+      .cluster li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 16px;
+        width: 8px;
+        height: 8px;
+        background: var(--accent);
+        border-radius: 50%;
+      }
+      .cluster.feature ul {
+        columns: 2;
+        column-gap: 34px;
+      }
+      .cluster.feature li {
+        break-inside: avoid;
+      }
+      @media (max-width: 760px) {
+        .cluster.feature ul {
+          columns: 1;
+        }
+      }
+
+      /* ---------- PERSONA ---------- */
+      .persona {
+        background: var(--card);
+        border: 2px solid var(--line);
+        box-shadow: var(--shadow);
+        display: grid;
+        grid-template-columns: 300px 1fr;
+        overflow: hidden;
+      }
+      @media (max-width: 820px) {
+        .persona {
+          grid-template-columns: 1fr;
+        }
+      }
+      .persona-side {
+        background: var(--postal);
+        color: var(--paper-2);
+        padding: 38px 30px;
+      }
+      .avatar {
+        width: 104px;
+        height: 104px;
+        border-radius: 50%;
+        background: var(--accent);
+        color: #fff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--disp);
+        font-size: 2.6rem;
+        font-weight: 600;
+        margin-bottom: 22px;
+      }
+      .persona-side h3 {
+        color: var(--paper-2);
+        font-size: 2rem;
+      }
+      .persona-side .role {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        color: #e89b86;
+        margin-top: 8px;
+        text-transform: uppercase;
+        line-height: 1.5;
+      }
+      .persona-side .tech {
+        margin-top: 24px;
+        font-size: 0.9rem;
+        color: rgba(246, 241, 231, 0.82);
+        border-top: 1px solid rgba(246, 241, 231, 0.2);
+        padding-top: 18px;
+      }
+      .persona-main {
+        padding: 38px 36px;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+      }
+      @media (max-width: 520px) {
+        .persona-main {
+          grid-template-columns: 1fr;
+        }
+      }
+      .pblock h4 {
+        font-family: var(--mono);
+        font-size: 0.66rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--accent);
+        margin-bottom: 10px;
+      }
+      .pblock p {
+        font-size: 0.98rem;
+        color: var(--ink-soft);
+      }
+      .pquote {
+        grid-column: 1/-1;
+        border-top: 2px solid var(--line);
+        padding-top: 26px;
+        margin-top: 4px;
+      }
+      .pquote p {
+        font-family: var(--disp);
+        font-style: italic;
+        font-size: 1.45rem;
+        line-height: 1.4;
+        color: var(--ink);
+      }
+      .pquote .mark {
+        color: var(--accent);
+        font-size: 2.4rem;
+        line-height: 0;
+        font-family: var(--disp);
+      }
+
+      /* ---------- EMPATHY MAP ---------- */
+      .emap {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        border: 2px solid var(--line);
+        box-shadow: var(--shadow);
+        background: var(--card);
+        position: relative;
+      }
+      .emap-center {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 74px;
+        height: 74px;
+        border-radius: 50%;
+        background: var(--ink);
+        color: var(--paper-2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: var(--disp);
+        font-size: 1.6rem;
+        font-weight: 600;
+        z-index: 2;
+        border: 4px solid var(--card);
+      }
+      .quad {
+        padding: 30px 30px;
+      }
+      .quad.says {
+        border-right: 1.5px solid var(--line);
+        border-bottom: 1.5px solid var(--line);
+      }
+      .quad.thinks {
+        border-bottom: 1.5px solid var(--line);
+      }
+      .quad.does {
+        border-right: 1.5px solid var(--line);
+      }
+      .quad h4 {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 16px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .quad h4 .ic {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 0.8rem;
+      }
+      .quad.says h4 {
+        color: var(--postal);
+      }
+      .quad.says .ic {
+        background: var(--postal);
+      }
+      .quad.thinks h4 {
+        color: var(--accent);
+      }
+      .quad.thinks .ic {
+        background: var(--accent);
+      }
+      .quad.does h4 {
+        color: var(--good);
+      }
+      .quad.does .ic {
+        background: var(--good);
+      }
+      .quad.feels h4 {
+        color: var(--accent-deep);
+      }
+      .quad.feels .ic {
+        background: var(--accent-deep);
+      }
+      .quad ul {
+        list-style: none;
+      }
+      .quad li {
+        font-size: 0.92rem;
+        color: var(--ink-soft);
+        padding: 7px 0;
+        line-height: 1.4;
+      }
+      .quad.says li,
+      .quad.thinks li {
+        font-style: italic;
+      }
+      @media (max-width: 680px) {
+        .emap {
+          grid-template-columns: 1fr;
+        }
+        .quad.says,
+        .quad.thinks,
+        .quad.does,
+        .quad.feels {
+          border-right: none;
+          border-bottom: 1.5px solid var(--line);
+        }
+        .quad.feels {
+          border-bottom: none;
+        }
+        .emap-center {
+          display: none;
+        }
+      }
+
+      /* ---------- JOURNEY MAP ---------- */
+      .jrow.curve {
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .jrow.curve .jcell.lab {
+        font-size: 0.62rem;
+        line-height: 1.5;
+      }
+      .graphcell {
+        grid-column: 2 / -1;
+        padding: 0;
+        border-right: none;
+      }
+      .graphcell svg {
+        display: block;
+        width: 100%;
+        height: 180px;
+      }
+      .jscroll {
+        overflow-x: auto;
+        padding-bottom: 6px;
+      }
+      .jgrid {
+        min-width: 920px;
+        border: 1.5px solid var(--line);
+        background: var(--card);
+        box-shadow: var(--shadow);
+      }
+      .jrow {
+        display: grid;
+        grid-template-columns: 130px repeat(7, 1fr);
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .jrow:last-child {
+        border-bottom: none;
+      }
+      .jrow.head {
+        background: var(--ink);
+        color: var(--paper-2);
+      }
+      .jcell {
+        padding: 14px 14px;
+        border-right: 1px solid var(--line-soft);
+        font-size: 0.82rem;
+        line-height: 1.4;
+        color: var(--ink-soft);
+      }
+      .jcell:last-child {
+        border-right: none;
+      }
+      .jcell.lab {
+        font-family: var(--mono);
+        font-size: 0.64rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        color: var(--ink);
+        background: var(--paper-2);
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+      }
+      .jrow.head .jcell {
+        color: var(--paper-2);
+        font-family: var(--disp);
+        font-size: 1rem;
+        font-weight: 600;
+        border-right-color: rgba(246, 241, 231, 0.18);
+      }
+      .jrow.head .jcell.lab {
+        background: transparent;
+        color: #e89b86;
+        font-family: var(--mono);
+        font-size: 0.64rem;
+      }
+      .jrow.emo .jcell {
+        text-align: center;
+      }
+
+      .jrow.emo .jcell small {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.56rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-top: 4px;
+      }
+      .jrow.pain .jcell {
+        background: rgba(210, 69, 42, 0.07);
+        color: var(--accent-deep);
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+      .jrow.pain .jcell.lab {
+        background: var(--accent);
+        color: #fff;
+      }
+      .jrow.opp .jcell {
+        background: rgba(94, 122, 69, 0.08);
+      }
+      .jrow.opp .jcell.lab {
+        background: var(--good);
+        color: #fff;
+      }
+      .jhint {
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.1em;
+        color: var(--ink-faint);
+        text-transform: uppercase;
+        margin-top: 12px;
+      }
+
+      /* ---------- PROBLEM STATEMENT ---------- */
+      .problem {
+        background: var(--accent);
+        color: #fff;
+        text-align: center;
+        padding: 120px 0;
+      }
+      .problem .eyebrow {
+        color: #fbd9cf;
+      }
+      .problem .hmw {
+        font-family: var(--disp);
+        font-size: clamp(1.8rem, 4.4vw, 3.4rem);
+        font-weight: 500;
+        line-height: 1.18;
+        max-width: 20ch;
+        margin: 26px auto 0;
+        letter-spacing: -0.02em;
+      }
+      .problem .hmw em {
+        font-style: italic;
+        color: var(--ink);
+      }
+      .problem .perf {
+        display: flex;
+        gap: 0;
+        justify-content: center;
+        margin-top: 50px;
+      }
+      .problem .perf i {
+        width: 14px;
+        height: 14px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.45);
+        margin: 0 6px;
+      }
+
+      /* ---------- FOOTER ---------- */
+      footer {
+        background: var(--ink);
+        color: var(--paper-2);
+        padding: 60px 0 50px;
+      }
+      .foot {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+      }
+      .foot .mono {
+        color: rgba(246, 241, 231, 0.6);
+      }
+      .foot h3 {
+        color: var(--paper-2);
+        font-size: 1.6rem;
+      }
+      .foot .stamp {
+        width: 96px;
+        height: 96px;
+        border-color: rgba(246, 241, 231, 0.5);
+        color: rgba(246, 241, 231, 0.7);
+        box-shadow: none;
+      }
+      .foot .stamp b {
+        font-size: 1rem;
+      }
+      .foot .stamp span {
+        font-size: 0.45rem;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="progress" id="progress"></div>
+    <div class="topbar">
+      <div class="brand">
+        <span class="dot"></span>PARCEL&nbsp;/&nbsp;A CASE STUDY
+      </div>
+      <nav class="navlinks">
+        <a href="#process">Process</a>
+        <a href="#interviews">Interviews</a>
+        <a href="#observations">Observations</a>
+        <a href="#clusters">Clusters</a>
+        <a href="#persona">Persona</a>
+        <a href="#journey">Journey</a>
+        <a href="#problem">Problem</a>
+      </nav>
+    </div>
+
+    <!-- ============ HERO ============ -->
+    <header class="hero">
+      <div class="wrap">
+        <div class="hero-stamp">
+          <div class="stamp"><b>FRAGILE</b><span>HANDLE WITH CARE</span></div>
+        </div>
+        <div class="hero-eyebrow eyebrow reveal">
+          UX Research Case Study · Empathize → Define
+        </div>
+        <h1 class="reveal">
+          The black hole between <em>“out for delivery”</em> and
+          <em>“delivered.”</em>
+        </h1>
+        <!-- <p class="hero-sub reveal">
+          A deep-dive into why small online sellers lose sleep — and trust —
+          over courier deliveries, and what they actually need at every step of
+          the journey.
+        </p> -->
+
+        <!--<div class="label reveal">
+          <div class="label-top">
+            <span class="mono">TRACKING&nbsp;·&nbsp;UX-2026-ARJUN</span>
+            <span class="barcode" aria-hidden="true"></span>
+          </div>
+          <div class="label-grid">
+            <div>
+              <div class="k">Discipline</div>
+              <div class="v">User Research</div>
+            </div>
+            <div>
+              <div class="k">Methods</div>
+              <div class="v">Interviews · Affinity Mapping</div>
+            </div>
+            <div>
+              <div class="k">Deliverables</div>
+              <div class="v">Persona · Empathy & Journey Maps</div>
+            </div>
+            <div>
+              <div class="k">Outcome</div>
+              <div class="v">A clear HMW Problem Statement</div>
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </header>
+
+    <!-- ============ PROCESS ============ -->
+    <section class="process" id="process">
+      <div class="wrap">
+        <div class="eyebrow reveal">The Method</div>
+        <h2 class="reveal">
+          Empathy first. We let real frustrations shape the problem — not
+          assumptions.
+        </h2>
+        <div class="steps reveal">
+          <div class="step active">
+            <div class="n">01</div>
+            <h3>Interview</h3>
+            <p>
+              Open-ended conversations with senders about their last real
+              shipment.
+            </p>
+          </div>
+          <div class="step active">
+            <div class="n">02</div>
+            <h3>Observe</h3>
+            <p>
+              Capture raw quotes, then decode the underlying need behind each
+              one.
+            </p>
+          </div>
+          <div class="step active">
+            <div class="n">03</div>
+            <h3>Cluster</h3>
+            <p>
+              Affinity-map observations into themes and rank them by priority.
+            </p>
+          </div>
+          <div class="step active">
+            <div class="n">04</div>
+            <h3>Synthesize</h3>
+            <p>
+              Build a persona, empathy map and end-to-end journey of the
+              experience.
+            </p>
+          </div>
+          <div class="step active">
+            <div class="n">05</div>
+            <h3>Define</h3>
+            <p>
+              Frame one sharp “How Might We” to guide everything that follows.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ INTERVIEWS ============ -->
+    <section id="interviews">
+      <div class="wrap">
+        <div class="sec-tag reveal">
+          <span class="sec-num">01 / EMPATHIZE</span>
+        </div>
+        <h2 class="sec-head reveal">User interviews</h2>
+        <!-- <p class="sec-intro reveal">
+          A semi-structured script that moves from warm-up to deep pain —
+          designed to surface stories, not opinions.
+        </p> -->
+
+        <div class="themes">
+          <div class="theme reveal">
+            <span class="badge">Warm Up</span>
+            <h3>Setting the scene</h3>
+            <ul>
+              <li>How often do you send or receive parcels in a month?</li>
+              <li>
+                What kinds of things do you usually send — work, personal, or
+                products you sell?
+              </li>
+            </ul>
+          </div>
+          <div class="theme reveal">
+            <span class="badge">Current Behaviour</span>
+            <h3>The real workflow</h3>
+            <ul>
+              <li>
+                Walk me through the last time you sent a parcel — every step.
+              </li>
+              <li>How did you choose the courier service you used?</li>
+              <li>How did you know it was delivered?</li>
+            </ul>
+          </div>
+          <div class="theme reveal">
+            <span class="badge">Pain &amp; Frustration</span>
+            <h3>Where it breaks</h3>
+            <ul>
+              <li>Tell me about a time a delivery went really badly.</li>
+              <li>What's the most stressful part of the whole process?</li>
+            </ul>
+          </div>
+          <div class="theme reveal">
+            <span class="badge">Expectations &amp; Workarounds</span>
+            <h3>Trust &amp; backup plans</h3>
+            <ul>
+              <li>
+                What would make you trust a new delivery service you've never
+                used?
+              </li>
+              <li>
+                If your usual courier wasn't available right now, what would you
+                do?
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ RAW OBSERVATIONS ============ -->
+    <section id="observations">
+      <div class="wrap">
+        <div class="sec-tag reveal">
+          <span class="sec-num">02 / DEFINE</span>
+        </div>
+        <h2 class="sec-head reveal">From raw observation to core need</h2>
+        <!--<p class="sec-intro reveal">
+          Every quote captured in the field was decoded into the underlying
+          feeling or need driving it — the bridge between what people
+          <em>say</em> and what they actually <em>need</em>.
+        </p> -->
+
+        <div class="obs-list" id="obsList">
+          <!-- FIRST 15 (visible) -->
+          <div class="obs reveal">
+            <span class="idx">S1</span>
+            <div class="raw">
+              Receives 4–5 parcels a month, but only sends one every two months.
+            </div>
+            <span class="need">Low-frequency sender</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S2</span>
+            <div class="raw">
+              Sends personal gifts and returns borrowed items — things with
+              emotional value.
+            </div>
+            <span class="need">Sends things that matter</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S3</span>
+            <div class="raw">
+              Spent two days just finding the right box before even booking
+              anything.
+            </div>
+            <span class="need">Help before booking starts</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S4</span>
+            <div class="raw">
+              Chose a courier on familiarity alone — “the blue-and-yellow logo
+              one.” No research done.
+            </div>
+            <span class="need">Trust before trying</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S5</span>
+            <div class="raw">
+              “I'd rather pay a little more for peace of mind than gamble on
+              something unknown.”
+            </div>
+            <span class="need">Trust over price</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S6</span>
+            <div class="raw">
+              Needed a push notification + email + delivery photo + a cousin's
+              message to feel confirmed.
+            </div>
+            <span class="need">Certainty of safe delivery</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S7</span>
+            <div class="raw">
+              Tracking stalled 24 hours — called it “falling into a black hole.”
+              Felt anxious even though the parcel was fine.
+            </div>
+            <span class="need">Constant visibility</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S8</span>
+            <div class="raw">
+              A vinyl record was delivered to the wrong building — an evening
+              lost going door to door.
+            </div>
+            <span class="need">Accurate delivery</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S9</span>
+            <div class="raw">
+              Support = automated loops + a 3-day wait + a useless email. “I
+              nearly cried over a piece of vinyl.”
+            </div>
+            <span class="need">A real human when it breaks</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S10</span>
+            <div class="raw">
+              “The gap between ‘out for delivery’ and ‘delivered’ is the most
+              stressful part.”
+            </div>
+            <span class="need">Constant visibility</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S11</span>
+            <div class="raw">
+              Worried about too little cushioning — and about accidentally
+              breaking a shipping rule.
+            </div>
+            <span class="need">Guidance before shipping</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S12</span>
+            <div class="raw">
+              The international customs form is baffling — wrong codes mean the
+              recipient gets a surprise bill.
+            </div>
+            <span class="need">Simplicity in complex steps</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S13</span>
+            <div class="raw">
+              Doesn't know if an oddly shaped box is acceptable without taking
+              complex measurements.
+            </div>
+            <span class="need">Guidance before shipping</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S14</span>
+            <div class="raw">
+              Only trusts a new service if a friend personally recommends it —
+              word of mouth beats advertising.
+            </div>
+            <span class="need">Social proof to trust</span>
+          </div>
+          <div class="obs reveal">
+            <span class="idx">S15</span>
+            <div class="raw">
+              Wants real-time pricing with no hidden charges, working mobile
+              tracking, and a human to call.
+            </div>
+            <span class="need">Transparency + real support</span>
+          </div>
+
+          <!-- HIDDEN (revealed on View more) -->
+          <div class="obs hidden-obs">
+            <span class="idx">S16</span>
+            <div class="raw">
+              If the usual courier is unavailable, would ask a friend heading
+              that way to hand-deliver it.
+            </div>
+            <span class="need">Trust over convenience</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A1</span>
+            <div class="raw">
+              Sends 3–5 parcels a month — more during gifting season or while
+              actively selling.
+            </div>
+            <span class="need">Regular, frequent sender</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A2</span>
+            <div class="raw">
+              Sells second-hand bike gear, helmets and gadgets on Instagram and
+              marketplaces.
+            </div>
+            <span class="need">Business reputation at stake</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A3</span>
+            <div class="raw">
+              Sends the tracking ID to the buyer immediately after pickup, to
+              prevent panic messages.
+            </div>
+            <span class="need">Manage buyer anxiety</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A4</span>
+            <div class="raw">
+              “Buyers care a lot about speed and trust. If tracking looks
+              suspicious, they panic immediately.”
+            </div>
+            <span class="need">Tracking protects reputation</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A5</span>
+            <div class="raw">
+              Overpacks every fragile item because couriers handle parcels
+              roughly.
+            </div>
+            <span class="need">Safe handling guarantee</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A6</span>
+            <div class="raw">
+              Selling at ₹500 but ₹150–200 shipping makes buyers reconsider the
+              whole purchase.
+            </div>
+            <span class="need">Affordable, predictable pricing</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A7</span>
+            <div class="raw">
+              Always checks multiple courier options before booking just to
+              compare price.
+            </div>
+            <span class="need">Price transparency upfront</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A8</span>
+            <div class="raw">
+              Books pickup from home, never visits the office; got the tracking
+              link via SMS after pickup.
+            </div>
+            <span class="need">Convenience of home pickup</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A9</span>
+            <div class="raw">
+              Pays more for a trusted courier when the item really matters.
+            </div>
+            <span class="need">Trust over price</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A10</span>
+            <div class="raw">
+              Tracks obsessively until “Delivered”; the receiver also messages
+              him as a second confirmation.
+            </div>
+            <span class="need">Constant visibility</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A11</span>
+            <div class="raw">
+              Pickup delayed twice — support gave only generic copy-paste
+              replies both times.
+            </div>
+            <span class="need">Real support, not copy-paste</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A12</span>
+            <div class="raw">
+              Parcel sat in the destination city for days with zero tracking
+              updates.
+            </div>
+            <span class="need">Constant visibility</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A13</span>
+            <div class="raw">
+              Sent a helmet; box arrived damaged, visor scratched — courier
+              blamed his packaging though it was packed properly.
+            </div>
+            <span class="need">Accountability when things break</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A14</span>
+            <div class="raw">
+              The insurance and claims process was confusing and slow, on top of
+              the damage.
+            </div>
+            <span class="need">A real human when it breaks</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A15</span>
+            <div class="raw">
+              “Uncertainty. When tracking stops updating, you don't know if it's
+              safe, delayed, or lost.”
+            </div>
+            <span class="need">Constant visibility</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A16</span>
+            <div class="raw">
+              “Booking is easy now. But solving problems still feels old-school
+              and painfully slow.”
+            </div>
+            <span class="need">Real support, not copy-paste</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A17</span>
+            <div class="raw">
+              Trusts a new service based on clear tracking, good reviews,
+              transparent pricing and fast support.
+            </div>
+            <span class="need">Social proof to trust</span>
+          </div>
+          <div class="obs hidden-obs">
+            <span class="idx">A18</span>
+            <div class="raw">
+              If usual courier is unavailable, compares on Google or an app,
+              checks reviews and picks the fastest.
+            </div>
+            <span class="need">Price transparency upfront</span>
+          </div>
+        </div>
+
+        <div class="viewmore-wrap">
+          <button class="viewmore" id="obsToggle" aria-expanded="false">
+            <span id="obsToggleText">View all observations</span>
+            <span class="cnt" id="obsCount">(+19 more)</span>
+            <span class="arw">▼</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ CLUSTERS ============ -->
+    <section id="clusters">
+      <div class="wrap">
+        <div class="sec-tag reveal">
+          <span class="sec-num">03 / DEFINE</span>
+        </div>
+        <h2 class="sec-head reveal">Affinity mapping: five clusters, ranked</h2>
+        <!--  <p class="sec-intro reveal">
+          Grouping the observations revealed five clear themes. Each carries a
+          user's own words as its headline — and a priority that tells us where
+          to fight first.
+        </p> -->
+
+        <div class="clusters">
+          <div class="cluster feature reveal">
+            <div class="cluster-top">
+              <h3>“Where is my parcel right now?”</h3>
+              <div class="meta">
+                <span class="pri p1">Priority 1</span
+                ><span class="count">6 observations</span>
+              </div>
+            </div>
+            <ul>
+              <li>
+                Tracking stalled 24 hours — a “black hole.” Felt anxiety even
+                when the parcel was fine.
+              </li>
+              <li>
+                The gap between “out for delivery” and “delivered” is the most
+                stressful moment.
+              </li>
+              <li>
+                Parcel sat in the destination city for days. Zero updates, no
+                information at all.
+              </li>
+              <li>
+                When tracking stops, you don't know if it's safe, delayed, or
+                lost.
+              </li>
+              <li>
+                Tracks obsessively until it says “Delivered” — then needs the
+                receiver to confirm too.
+              </li>
+              <li>
+                Needed four separate confirmations before feeling certain the
+                parcel was safe.
+              </li>
+            </ul>
+          </div>
+
+          <div class="cluster reveal">
+            <div class="cluster-top">
+              <h3>“I don't trust strangers. I trust people I know.”</h3>
+              <div class="meta">
+                <span class="pri p1">Priority 1</span
+                ><span class="count">6 observations</span>
+              </div>
+            </div>
+            <ul>
+              <li>
+                Chose a courier purely on a recognizable blue-and-yellow logo —
+                no research.
+              </li>
+              <li>
+                Would rather pay more for peace of mind than risk an unfamiliar
+                service.
+              </li>
+              <li>
+                Only trusts a new service when a friend personally recommends
+                it.
+              </li>
+              <li>
+                Even buyers panic when tracking looks suspicious — trust is
+                fragile on both sides.
+              </li>
+              <li>
+                Pays extra for a trusted courier when shipping something
+                important.
+              </li>
+              <li>
+                Trusts new services mainly through positive reviews and word of
+                mouth.
+              </li>
+            </ul>
+          </div>
+
+          <div class="cluster reveal">
+            <div class="cluster-top">
+              <h3>“When things go wrong, nobody helps me.”</h3>
+              <div class="meta">
+                <span class="pri p2">Priority 2</span
+                ><span class="count">5 observations</span>
+              </div>
+            </div>
+            <ul>
+              <li>
+                Vinyl delivered to the wrong building; recipient went door to
+                door to find it.
+              </li>
+              <li>
+                Support = automated loops, a 3-day wait, and an unhelpful email.
+              </li>
+              <li>
+                Pickup delayed twice — only generic copy-paste replies, no real
+                help.
+              </li>
+              <li>
+                A helmet arrived damaged; the courier blamed the sender's
+                packaging.
+              </li>
+              <li>
+                The insurance and claims process was confusing and painfully
+                slow.
+              </li>
+            </ul>
+          </div>
+
+          <div class="cluster reveal">
+            <div class="cluster-top">
+              <h3>“The price is never what it seems.”</h3>
+              <div class="meta">
+                <span class="pri p2">Priority 2</span
+                ><span class="count">4 observations</span>
+              </div>
+            </div>
+            <ul>
+              <li>
+                Shipping ₹150–200 on a ₹500 sale kills the buyer's interest
+                entirely.
+              </li>
+              <li>
+                Checks three courier apps before every booking just to compare
+                prices.
+              </li>
+              <li>
+                International customs leaves the recipient with a surprise bill.
+              </li>
+              <li>
+                Wants real-time pricing — no hidden surcharges — shown before
+                committing.
+              </li>
+            </ul>
+          </div>
+
+          <div class="cluster reveal">
+            <div class="cluster-top">
+              <h3>“Packing it is its own nightmare.”</h3>
+              <div class="meta">
+                <span class="pri p3">Priority 3</span
+                ><span class="count">4 observations</span>
+              </div>
+            </div>
+            <ul>
+              <li>
+                Spent two days just finding the right box before touching the
+                booking.
+              </li>
+              <li>
+                Worried about too little cushioning, or accidentally breaking a
+                shipping rule.
+              </li>
+              <li>
+                Fragile items cause huge stress; overpacks because couriers
+                handle parcels roughly.
+              </li>
+              <li>
+                Packed a helmet properly — the courier still blamed the
+                packaging when it broke.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ PERSONA ============ -->
+    <section id="persona">
+      <div class="wrap">
+        <div class="sec-tag reveal">
+          <span class="sec-num">04 / DEFINE</span>
+        </div>
+        <h2 class="sec-head reveal">Meet Arjun</h2>
+        <!--  <p class="sec-intro reveal">
+          One person who carries every frustration we heard — the small seller
+          whose reputation rides on a stranger he's never met.
+        </p>-->
+
+        <div class="persona reveal">
+          <div class="persona-side">
+            <div class="avatar">A</div>
+            <h3>Arjun Kumar</h3>
+            <div class="role">
+              28 · Chartered Accountant<br />+ Part-time Online Seller
+            </div>
+            <div class="tech">
+              Very comfortable with technology. Low patience for bad UX.
+              Compares three apps before every single booking.
+            </div>
+          </div>
+          <div class="persona-main">
+            <div class="pblock">
+              <h4>His Goals</h4>
+              <p>
+                Ship fast, know it arrived safely, and never have a buyer
+                complain about a missing delivery.
+              </p>
+            </div>
+            <div class="pblock">
+              <h4>What He Sells</h4>
+              <p>
+                Bike gear, helmets and gadgets through Instagram and online
+                marketplaces.
+              </p>
+            </div>
+            <div class="pblock">
+              <h4>His Behaviour</h4>
+              <p>
+                Books from his phone only, sends the tracking ID immediately,
+                overpacks everything, and checks obsessively.
+              </p>
+            </div>
+            <div class="pblock">
+              <h4>His Frustrations</h4>
+              <p>
+                Tracking goes silent, pricing is unpredictable, damaged items
+                get blamed on him, and support is useless.
+              </p>
+            </div>
+            <div class="pquote">
+              <p>
+                <span class="mark">“</span>My customer doesn't know it's the
+                courier's fault. They only know they ordered from me and it
+                didn't come. So their problem becomes <em>my</em> problem.<span
+                  class="mark"
+                  >”</span
+                >
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ EMPATHY MAP ============ -->
+    <section id="empathy">
+      <div class="wrap">
+        <div class="sec-tag reveal">
+          <span class="sec-num">05 / DEFINE</span>
+        </div>
+        <h2 class="sec-head reveal">Empathy map</h2>
+        <!--    <p class="sec-intro reveal">
+          What Arjun says and does on the surface — and the anxious inner voice
+          underneath that we have to design for.
+        </p> -->
+
+        <div class="emap reveal">
+          <div class="emap-center">A</div>
+          <div class="quad says">
+            <h4><span class="ic">”</span>Says</h4>
+            <ul>
+              <li>“Buyers care a lot about speed and trust.”</li>
+              <li>“If tracking looks suspicious they panic immediately.”</li>
+              <li>“I send the tracking ID to the buyer right after pickup.”</li>
+              <li>“Fragile items are the most stressful.”</li>
+              <li>
+                “Booking is easy now, but solving problems still feels
+                old-school.”
+              </li>
+              <li>“Uncertainty is the worst feeling.”</li>
+            </ul>
+          </div>
+          <div class="quad thinks">
+            <h4><span class="ic">?</span>Thinks</h4>
+            <ul>
+              <li>
+                If my buyer doesn't get updates, they'll think I scammed them.
+              </li>
+              <li>
+                Is this courier going to handle my helmet carefully — or just
+                throw it?
+              </li>
+              <li>
+                Why do I check three apps for a fair price? Shouldn't it just be
+                shown?
+              </li>
+              <li>If something goes wrong, support won't actually help me.</li>
+              <li>
+                My reputation depends entirely on a stranger I've never met.
+              </li>
+              <li>
+                I packed this perfectly — please don't blame me if it breaks.
+              </li>
+            </ul>
+          </div>
+          <div class="quad does">
+            <h4><span class="ic">→</span>Does</h4>
+            <ul>
+              <li>
+                Checks three courier apps before every booking to compare
+                prices.
+              </li>
+              <li>Books pickup from home; never visits a courier office.</li>
+              <li>
+                Sends the tracking ID to the buyer the moment pickup is
+                confirmed.
+              </li>
+              <li>Overpacks every fragile item with extra bubble wrap.</li>
+              <li>
+                Refreshes tracking obsessively until it shows “Delivered.”
+              </li>
+              <li>
+                When support fails, he has no path forward — completely stuck.
+              </li>
+            </ul>
+          </div>
+          <div class="quad feels">
+            <h4><span class="ic">♥</span>Feels</h4>
+            <ul>
+              <li>
+                Anxious every time a fragile item is picked up — will it arrive
+                safely?
+              </li>
+              <li>
+                Helpless when tracking stops and he has nothing to tell his
+                buyer.
+              </li>
+              <li>
+                Frustrated when support gives copy-paste replies that solve
+                nothing.
+              </li>
+              <li>
+                Embarrassed when a buyer asks where the order is — even though
+                it's the courier's fault.
+              </li>
+              <li>
+                Relieved the moment the buyer confirms delivery — the weight
+                lifts.
+              </li>
+              <li>
+                Cheated when the final price is higher than what was shown.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ JOURNEY MAP ============ -->
+    <section id="journey">
+      <div class="wrap">
+        <div class="sec-tag reveal">
+          <span class="sec-num">06 / DEFINE</span>
+        </div>
+        <h2 class="sec-head reveal">The end-to-end journey</h2>
+        <!--  <p class="sec-intro reveal">
+          Seven stages, one emotional rollercoaster — from a neutral start, down
+          into a “worst moment,” then a sharp spike of relief that builds no
+          loyalty at all.
+        </p> -->
+
+        <div class="jscroll reveal">
+          <div class="jgrid">
+            <div class="jrow head">
+              <div class="jcell lab">Stage</div>
+              <div class="jcell">Deciding</div>
+              <div class="jcell">Packing</div>
+              <div class="jcell">Booking</div>
+              <div class="jcell">Waiting</div>
+              <div class="jcell">Delivery</div>
+              <div class="jcell">Problem</div>
+              <div class="jcell">Done</div>
+            </div>
+            <div class="jrow curve">
+              <div class="jcell lab">Emotion<br />Curve</div>
+              <div class="jcell graphcell">
+                <svg
+                  viewBox="0 0 1400 180"
+                  width="100%"
+                  height="180"
+                  preserveAspectRatio="none"
+                  role="img"
+                  aria-label="Emotional journey curve aligned with the seven stages"
+                >
+                  <defs>
+                    <linearGradient id="cg" x1="0" y1="0" x2="0" y2="1">
+                      <stop
+                        offset="0%"
+                        stop-color="#D2452A"
+                        stop-opacity=".20"
+                      />
+                      <stop
+                        offset="100%"
+                        stop-color="#D2452A"
+                        stop-opacity="0"
+                      />
+                    </linearGradient>
+                  </defs>
+                  <!-- gridlines: HIGH 40 / MID 100 / LOW 160 -->
+                  <line
+                    x1="0"
+                    y1="40"
+                    x2="1400"
+                    y2="40"
+                    stroke="#211D17"
+                    stroke-opacity=".07"
+                  />
+                  <line
+                    x1="0"
+                    y1="100"
+                    x2="1400"
+                    y2="100"
+                    stroke="#211D17"
+                    stroke-opacity=".07"
+                  />
+                  <line
+                    x1="0"
+                    y1="160"
+                    x2="1400"
+                    y2="160"
+                    stroke="#211D17"
+                    stroke-opacity=".07"
+                  />
+                  <!-- column dividers at 200,400,...,1200 -->
+                  <g stroke="#211D17" stroke-opacity=".07">
+                    <line x1="200" y1="6" x2="200" y2="174" />
+                    <line x1="400" y1="6" x2="400" y2="174" />
+                    <line x1="600" y1="6" x2="600" y2="174" />
+                    <line x1="800" y1="6" x2="800" y2="174" />
+                    <line x1="1000" y1="6" x2="1000" y2="174" />
+                    <line x1="1200" y1="6" x2="1200" y2="174" />
+                  </g>
+                  <!-- centers: 100,300,500,700,900,1100,1300 -->
+                  <path
+                    d="M100,100 L300,134 L500,100 L700,150 L900,166 L1100,172 L1300,42 L1300,180 L100,180 Z"
+                    fill="url(#cg)"
+                  />
+                  <polyline
+                    points="100,100 300,134 500,100 700,150 900,166 1100,172 1300,42"
+                    fill="none"
+                    stroke="#D2452A"
+                    stroke-width="3"
+                    stroke-linejoin="round"
+                    stroke-linecap="round"
+                    vector-effect="non-scaling-stroke"
+                  />
+                  <g>
+                    <circle cx="100" cy="100" r="6" fill="#243F5E" />
+                    <circle cx="300" cy="134" r="6" fill="#243F5E" />
+                    <circle cx="500" cy="100" r="6" fill="#243F5E" />
+                    <circle cx="700" cy="150" r="6" fill="#D2452A" />
+                    <circle cx="900" cy="166" r="6" fill="#D2452A" />
+                    <circle cx="1100" cy="172" r="7" fill="#A8311C" />
+                    <circle cx="1300" cy="42" r="7" fill="#5E7A45" />
+                  </g>
+                </svg>
+              </div>
+            </div>
+            <div class="jrow emo">
+              <div class="jcell lab">Emotion</div>
+              <div class="jcell">😐<small>Neutral</small></div>
+              <div class="jcell">😟<small>Anxious</small></div>
+              <div class="jcell">😐<small>Neutral</small></div>
+              <div class="jcell">😰<small>High anxiety</small></div>
+              <div class="jcell">😬<small>Peak anxiety</small></div>
+              <div class="jcell">😡<small>Worst moment</small></div>
+              <div class="jcell">😌<small>Relieved</small></div>
+            </div>
+            <div class="jrow">
+              <div class="jcell lab">Actions</div>
+              <div class="jcell">
+                Opens 3 courier apps, compares prices, spends 15–20 min
+                deciding.
+              </div>
+              <div class="jcell">
+                Bubble-wraps everything, double-boxes, photographs proof before
+                handover.
+              </div>
+              <div class="jcell">
+                Books pickup from home, fills address + weight, pays, gets SMS
+                link.
+              </div>
+              <div class="jcell">
+                Sends tracking ID to buyer, then refreshes obsessively. Buyer
+                starts messaging.
+              </div>
+              <div class="jcell">
+                Still refreshing. No proof of delivery shown. Waits for buyer to
+                confirm.
+              </div>
+              <div class="jcell">
+                Contacts support, gets auto-reply, waits 3 days, gets a useless
+                email.
+              </div>
+              <div class="jcell">
+                Buyer confirms, gets the “delivered” notice, feels relieved. No
+                loyalty.
+              </div>
+            </div>
+            <div class="jrow">
+              <div class="jcell lab">Thoughts</div>
+              <div class="jcell">
+                “Which courier is cheapest today? Last time one charged more
+                than quoted.”
+              </div>
+              <div class="jcell">
+                “Is this enough bubble wrap? If it's damaged they'll blame me
+                again.”
+              </div>
+              <div class="jcell">
+                “I hope the pickup guy actually comes — last time he was 2 days
+                late.”
+              </div>
+              <div class="jcell">
+                “Why hasn't it updated in 6 hours? What do I tell my buyer?”
+              </div>
+              <div class="jcell">
+                “Please don't be wrong address. Please don't be damaged. Just
+                arrive.”
+              </div>
+              <div class="jcell">
+                “I packed it perfectly, I have photos — but they'll blame me
+                anyway.”
+              </div>
+              <div class="jcell">
+                “Finally, that's done. Now on to packing the next one.”
+              </div>
+            </div>
+            <div class="jrow pain">
+              <div class="jcell lab">Pain</div>
+              <div class="jcell">
+                Price unclear — no single source of truth.
+              </div>
+              <div class="jcell">
+                No guidance — no clear packing or damage policy.
+              </div>
+              <div class="jcell">
+                Fear of delay — pickup with no proactive notice.
+              </div>
+              <div class="jcell">
+                Tracking silent — status freezes, buyer panics.
+              </div>
+              <div class="jcell">
+                No proof — “delivered” with nobody confirming it.
+              </div>
+              <div class="jcell">
+                No real help — auto-reply, 3-day wait, no accountability.
+              </div>
+              <div class="jcell">
+                No loyalty — stressful enough to compare again next time.
+              </div>
+            </div>
+            <div class="jrow opp">
+              <div class="jcell lab">Opportunity</div>
+              <div class="jcell">
+                One screen, all couriers, full honest price shown before
+                committing.
+              </div>
+              <div class="jcell">
+                In-app packing guide by item type; damage policy shown up front.
+              </div>
+              <div class="jcell">
+                Courier name + photo + live ETA; auto delay alerts before he
+                wonders.
+              </div>
+              <div class="jcell">
+                Auto-push at every stage + a shareable live tracking link for
+                the buyer.
+              </div>
+              <div class="jcell">
+                Auto delivery photo sent to both Arjun and the buyer at
+                handover.
+              </div>
+              <div class="jcell">
+                One-tap damage report with photo; a real human, 2-hour response.
+              </div>
+              <div class="jcell">
+                Clean delivery summary + one-tap rebook — turn relief into
+                loyalty.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="jhint reveal">
+          ← scroll the table sideways to read the full journey →
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ PROBLEM STATEMENT ============ -->
+    <section class="problem" id="problem">
+      <div class="wrap">
+        <div class="eyebrow reveal">07 / The Define Outcome · How Might We</div>
+        <p class="hmw reveal">
+          How might we help small online sellers like Arjun send parcels with
+          <em>full visibility</em> at every step — and get
+          <em>real help</em> when something goes wrong — so their buyers always
+          trust them, <em>even when a delivery goes wrong?</em>
+        </p>
+        <div class="perf reveal" aria-hidden="true">
+          <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FOOTER ============ -->
+    <footer>
+      <div class="wrap foot">
+        <div>
+          <div class="mono" style="margin-bottom: 10px">END OF CASE STUDY</div>
+          <h3>Empathize → Define, delivered.</h3>
+        </div>
+        <div class="stamp"><b>DELIVERED</b><span>SIGNED · RECEIVED</span></div>
+      </div>
+    </footer>
+
+    <script>
+      // progress bar
+      const prog = document.getElementById("progress");
+      window.addEventListener(
+        "scroll",
+        () => {
+          const h = document.documentElement;
+          const scrolled = h.scrollTop / (h.scrollHeight - h.clientHeight);
+          prog.style.width = scrolled * 100 + "%";
+        },
+        { passive: true },
+      );
+
+      // reveal on scroll
+      const io = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((e, i) => {
+            if (e.isIntersecting) {
+              e.target.classList.add("in");
+              io.unobserve(e.target);
+            }
+          });
+        },
+        { threshold: 0.12, rootMargin: "0px 0px -8% 0px" },
+      );
+      document.querySelectorAll(".reveal").forEach((el, i) => {
+        el.style.transitionDelay = (i % 4) * 0.06 + "s";
+        io.observe(el);
+      });
+
+      // build barcode
+      const bc = document.querySelector(".barcode");
+      if (bc) {
+        let s = "";
+        for (let i = 0; i < 46; i++) {
+          s +=
+            '<i style="height:' +
+            (60 + Math.random() * 40) +
+            "%;width:" +
+            (Math.random() > 0.6 ? "3px" : "2px") +
+            '"></i>';
+        }
+        bc.innerHTML = s;
+      }
+
+      // observations view more / less
+      const obsList = document.getElementById("obsList");
+      const obsToggle = document.getElementById("obsToggle");
+      const obsText = document.getElementById("obsToggleText");
+      const obsCount = document.getElementById("obsCount");
+      const hiddenCount = document.querySelectorAll(".obs.hidden-obs").length;
+      if (obsToggle) {
+        obsToggle.addEventListener("click", () => {
+          const expanded = obsList.classList.toggle("expanded");
+          obsToggle.setAttribute("aria-expanded", expanded);
+          obsToggle.querySelector(".arw").style.transform = expanded
+            ? "rotate(180deg)"
+            : "rotate(0deg)";
+          obsText.textContent = expanded
+            ? "Show fewer observations"
+            : "View all observations";
+          obsCount.textContent = expanded ? "" : "(+" + hiddenCount + " more)";
+          if (!expanded) {
+            document
+              .getElementById("observations")
+              .scrollIntoView({ behavior: "smooth" });
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
