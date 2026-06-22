@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -18,14 +19,14 @@
         --ink: #211d17;
         --ink-soft: #544d40;
         --ink-faint: #8a8170;
-        --accent: #d2452a; /* postal vermilion / FRAGILE stamp */
+        --accent: #d2452a;
         --accent-deep: #a8311c;
-        --postal: #243f5e; /* postal navy */
-        --good: #5e7a45; /* relief green */
+        --postal: #243f5e;
+        --good: #5e7a45;
         --line: #211d17;
         --line-soft: rgba(33, 29, 23, 0.16);
         --shadow: 18px 22px 0 rgba(33, 29, 23, 0.08);
-        --maxw: 1180px;
+        --maxw: 1440px;
         --mono: "Space Mono", monospace;
         --disp: "Fraunces", Georgia, serif;
         --body: "Hanken Grotesk", system-ui, sans-serif;
@@ -105,6 +106,7 @@
         display: flex;
         align-items: center;
         gap: 9px;
+        flex-shrink: 0;
       }
       .brand .dot {
         width: 11px;
@@ -115,20 +117,129 @@
       }
       .navlinks {
         display: flex;
-        gap: 22px;
+        gap: 4px;
         font-family: var(--mono);
         font-size: 0.68rem;
-        letter-spacing: 0.12em;
+        letter-spacing: 0.08em;
         text-transform: uppercase;
+        flex-wrap: wrap;
+      }
+      .navlinks > div {
+        position: relative;
       }
       .navlinks a {
         color: var(--ink-soft);
         text-decoration: none;
         transition: color 0.2s;
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 2px;
+        cursor: pointer;
+        white-space: nowrap;
       }
       .navlinks a:hover {
         color: var(--accent);
       }
+      .navlinks .main-link {
+        font-weight: 700;
+        color: var(--ink);
+      }
+      .navlinks .main-link:hover {
+        color: var(--accent);
+      }
+
+      /* dropdown */
+      .dropdown {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: var(--card);
+        border: 1.5px solid var(--line);
+        box-shadow: 6px 8px 0 rgba(33, 29, 23, 0.1);
+        min-width: 200px;
+        padding: 6px 0;
+        display: none;
+        z-index: 100;
+        border-radius: 2px;
+      }
+      .navlinks > div:hover .dropdown {
+        display: block;
+      }
+      .dropdown a {
+        display: block;
+        padding: 8px 18px;
+        color: var(--ink-soft);
+        font-size: 0.62rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        font-weight: 500;
+        border-bottom: 1px solid var(--line-soft);
+        white-space: nowrap;
+      }
+      .dropdown a:last-child {
+        border-bottom: none;
+      }
+      .dropdown a:hover {
+        background: var(--paper-2);
+        color: var(--accent);
+      }
+      .dropdown .dd-label {
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.14em;
+        color: var(--ink-faint);
+        padding: 6px 18px 2px;
+        text-transform: uppercase;
+        font-weight: 700;
+        border-bottom: 1px solid var(--line-soft);
+      }
+      .dropdown .dd-label:last-child {
+        border-bottom: none;
+      }
+
+      @media (max-width: 900px) {
+        .topbar {
+          flex-wrap: wrap;
+          gap: 8px;
+          padding: 10px 18px;
+        }
+        .navlinks {
+          font-size: 0.6rem;
+          gap: 2px;
+        }
+        .navlinks a {
+          padding: 4px 8px;
+        }
+        .dropdown {
+          min-width: 160px;
+          left: -8px;
+        }
+        .dropdown a {
+          font-size: 0.56rem;
+          padding: 6px 14px;
+        }
+      }
+      @media (max-width: 600px) {
+        .brand {
+          font-size: 0.65rem;
+        }
+        .navlinks {
+          font-size: 0.52rem;
+          gap: 0px;
+        }
+        .navlinks a {
+          padding: 4px 6px;
+        }
+        .dropdown {
+          min-width: 140px;
+          left: -4px;
+        }
+        .dropdown a {
+          font-size: 0.5rem;
+          padding: 5px 10px;
+        }
+      }
+
       .progress {
         position: fixed;
         top: 0;
@@ -137,11 +248,6 @@
         background: var(--accent);
         width: 0;
         z-index: 60;
-      }
-      @media (max-width: 760px) {
-        .navlinks {
-          display: none;
-        }
       }
 
       /* ---------- SECTION SHELL ---------- */
@@ -180,7 +286,6 @@
         margin: 0 auto;
       }
 
-      /* reveal */
       .reveal {
         opacity: 0;
         transform: translateY(26px);
@@ -333,11 +438,12 @@
         }
       }
 
-      /* ---------- PROCESS STRIP ---------- */
+      /* ---------- PROCESS / METHOD (Single Row - FIXED) ---------- */
       .process {
         background: var(--ink);
         color: var(--paper-2);
         padding: 70px 0;
+        overflow: hidden;
       }
       .process .eyebrow {
         color: #e89b86;
@@ -348,20 +454,46 @@
         margin: 14px 0 40px;
         max-width: 24ch;
       }
+
+      .steps-wrapper {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 12px;
+        scrollbar-width: thin;
+        margin: 0 -4px;
+      }
+      .steps-wrapper::-webkit-scrollbar {
+        height: 4px;
+      }
+      .steps-wrapper::-webkit-scrollbar-track {
+        background: rgba(246, 241, 231, 0.08);
+        border-radius: 4px;
+      }
+      .steps-wrapper::-webkit-scrollbar-thumb {
+        background: rgba(246, 241, 231, 0.3);
+        border-radius: 4px;
+      }
+
       .steps {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        display: flex;
+        flex-wrap: nowrap;
         gap: 0;
         border-top: 1px solid rgba(246, 241, 231, 0.2);
+        width: max-content;
+        min-width: 100%;
       }
+
       .step {
-        padding: 26px 22px 26px 12px;
+        flex: 0 0 auto;
+        width: 200px;
+        padding: 26px 20px 26px 18px;
         border-right: 1px solid rgba(246, 241, 231, 0.14);
         position: relative;
       }
       .step:last-child {
         border-right: none;
       }
+
       .step .n {
         font-family: var(--mono);
         font-size: 0.7rem;
@@ -370,13 +502,43 @@
       }
       .step h3 {
         color: var(--paper-2);
-        font-size: 1.25rem;
-        margin: 10px 0 8px;
+        font-size: 1.2rem;
+        margin: 10px 0 6px;
+        white-space: nowrap;
       }
-      .step p {
-        font-size: 0.86rem;
+      .step .step-desc {
+        font-size: 0.72rem;
         color: rgba(246, 241, 231, 0.72);
+        line-height: 1.7;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        gap: 2px 0;
       }
+      .step .step-desc .sub {
+        color: #e89b86;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+        margin-right: 2px;
+        flex-shrink: 0;
+      }
+      .step .step-desc .sub-item {
+        display: inline;
+        font-size: 0.7rem;
+        color: rgba(246, 241, 231, 0.85);
+        white-space: nowrap;
+      }
+      .step .step-desc .sub-item::after {
+        content: "·";
+        margin: 0 3px 0 5px;
+        color: rgba(246, 241, 231, 0.25);
+      }
+      .step .step-desc .sub-item:last-child::after {
+        content: "";
+        margin: 0;
+      }
+
       .step.active::after {
         content: "";
         position: absolute;
@@ -389,17 +551,39 @@
       .step.dim {
         opacity: 0.42;
       }
-      @media (max-width: 820px) {
-        .steps {
-          grid-template-columns: 1fr 1fr;
-        }
+
+      /* Responsive: wider steps on larger screens */
+      @media (min-width: 1024px) {
         .step {
-          border-bottom: 1px solid rgba(246, 241, 231, 0.14);
+          width: 220px;
+          padding: 30px 26px 30px 22px;
+        }
+        .step h3 {
+          font-size: 1.3rem;
+        }
+        .step .step-desc {
+          font-size: 0.78rem;
+        }
+        .step .step-desc .sub-item {
+          font-size: 0.76rem;
         }
       }
-      @media (max-width: 480px) {
-        .steps {
-          grid-template-columns: 1fr;
+      @media (max-width: 600px) {
+        .step {
+          width: 170px;
+          padding: 20px 14px 20px 14px;
+        }
+        .step h3 {
+          font-size: 1rem;
+        }
+        .step .step-desc {
+          font-size: 0.65rem;
+        }
+        .step .step-desc .sub-item {
+          font-size: 0.63rem;
+        }
+        .step .step-desc .sub-item::after {
+          margin: 0 2px 0 3px;
         }
       }
 
@@ -955,7 +1139,6 @@
       .jrow.emo .jcell {
         text-align: center;
       }
-
       .jrow.emo .jcell small {
         display: block;
         font-family: var(--mono);
@@ -994,6 +1177,392 @@
         margin-top: 12px;
       }
 
+      /* ---------- IDEATE: BRAINSTORM + CRAZY 8s ---------- */
+      .ideas {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 44px;
+      }
+      .chip {
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.04em;
+        color: var(--ink);
+        background: var(--card);
+        border: 1.5px solid var(--line);
+        border-radius: 999px;
+        padding: 9px 16px;
+        box-shadow: 3px 4px 0 rgba(33, 29, 23, 0.06);
+      }
+      .ideas-lab {
+        font-family: var(--mono);
+        font-size: 0.62rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        font-weight: 700;
+        margin-bottom: 16px;
+      }
+      .c8grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1.5px;
+        background: var(--line);
+        border: 1.5px solid var(--line);
+        box-shadow: var(--shadow);
+      }
+      .c8 {
+        background: var(--card);
+        padding: 24px 22px 26px;
+        min-height: 158px;
+      }
+      .c8 .num {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        color: var(--accent);
+        font-weight: 700;
+        letter-spacing: 0.12em;
+      }
+      .c8 h4 {
+        font-family: var(--disp);
+        font-size: 1.2rem;
+        font-weight: 600;
+        margin: 12px 0 8px;
+        letter-spacing: -0.01em;
+      }
+      .c8 p {
+        font-size: 0.86rem;
+        color: var(--ink-soft);
+        line-height: 1.45;
+      }
+      .c8.vote {
+        background: var(--paper-2);
+      }
+      .c8 .dot-vote {
+        display: inline-block;
+        margin-top: 12px;
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent-deep);
+        background: rgba(210, 69, 42, 0.12);
+        border: 1px solid var(--accent);
+        padding: 3px 8px;
+        font-weight: 700;
+      }
+      @media (max-width: 820px) {
+        .c8grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 520px) {
+        .c8grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ---------- IDEATE: USER STORIES ---------- */
+      .stories {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 24px;
+        margin-top: 10px;
+      }
+      @media (max-width: 760px) {
+        .stories {
+          grid-template-columns: 1fr;
+        }
+      }
+      .story {
+        background: var(--card);
+        border: 1.5px solid var(--line);
+        box-shadow: 6px 8px 0 rgba(33, 29, 23, 0.06);
+        padding: 24px 26px 26px;
+        position: relative;
+      }
+      .story .tags {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        margin-bottom: 16px;
+      }
+      .story .who {
+        font-family: var(--mono);
+        font-size: 0.58rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--postal);
+        border: 1.5px solid var(--postal);
+        padding: 3px 9px;
+        font-weight: 700;
+      }
+      .story p {
+        font-size: 1.04rem;
+        line-height: 1.5;
+        color: var(--ink);
+      }
+      .story .lead {
+        font-family: var(--mono);
+        font-size: 0.6rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        font-weight: 700;
+      }
+      .story .so {
+        color: var(--ink-soft);
+      }
+
+      /* ---------- IDEATE: INFORMATION ARCHITECTURE ---------- */
+      .ia-root {
+        display: flex;
+        justify-content: center;
+      }
+      .ia-root .node0 {
+        background: var(--ink);
+        color: var(--paper-2);
+        font-family: var(--disp);
+        font-weight: 600;
+        font-size: 1.25rem;
+        padding: 14px 32px;
+        border: 1.5px solid var(--line);
+        box-shadow: 6px 8px 0 rgba(33, 29, 23, 0.14);
+      }
+      .ia-stem {
+        width: 1.5px;
+        height: 34px;
+        background: var(--line);
+        margin: 0 auto;
+      }
+      .ia-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+      }
+      @media (max-width: 820px) {
+        .ia-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+      @media (max-width: 520px) {
+        .ia-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+      .ia-branch {
+        background: var(--card);
+        border: 1.5px solid var(--line);
+        box-shadow: 6px 8px 0 rgba(33, 29, 23, 0.06);
+      }
+      .ia-branch .bhead {
+        background: var(--postal);
+        color: var(--paper-2);
+        padding: 13px 18px;
+        font-family: var(--mono);
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        font-weight: 700;
+        display: flex;
+        align-items: baseline;
+        gap: 9px;
+      }
+      .ia-branch .bnum {
+        color: #e89b86;
+        font-size: 0.62rem;
+      }
+      .ia-branch ul {
+        list-style: none;
+        padding: 14px 18px 20px;
+      }
+      .ia-branch li {
+        font-size: 0.9rem;
+        color: var(--ink-soft);
+        padding: 9px 0 9px 18px;
+        position: relative;
+        border-top: 1px dashed var(--line-soft);
+      }
+      .ia-branch li:first-child {
+        border-top: none;
+      }
+      .ia-branch li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 16px;
+        width: 9px;
+        height: 1.5px;
+        background: var(--accent);
+      }
+
+      /* ---------- IDEATE: User Flow ---------- */
+      .userflow-container {
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-top: 20px;
+        position: relative;
+      }
+      .userflow-container img {
+        display: block;
+        max-width: none;
+        height: auto;
+        min-width: 800px;
+        width: 100%;
+      }
+      .fullview-btn {
+        position: absolute;
+        bottom: 14px;
+        right: 14px;
+        z-index: 10;
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        background: var(--ink);
+        color: var(--paper-2);
+        border: 1.5px solid var(--line);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1rem;
+        box-shadow: 3px 4px 0 rgba(33, 29, 23, 0.14);
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s,
+          background 0.2s;
+      }
+      .fullview-btn:hover {
+        transform: translate(1px, 1px);
+        box-shadow: 1px 2px 0 rgba(33, 29, 23, 0.14);
+        background: var(--accent);
+      }
+      .fullview-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 200;
+        background: rgba(33, 29, 23, 0.94);
+        backdrop-filter: blur(4px);
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        overflow: hidden;
+      }
+      .fullview-overlay.open {
+        display: flex;
+      }
+      .fullview-toolbar {
+        position: fixed;
+        top: 22px;
+        right: 28px;
+        z-index: 210;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+        background: var(--card);
+        border: 1.5px solid var(--line);
+        border-radius: 999px;
+        padding: 12px 8px;
+        box-shadow: 3px 4px 0 rgba(33, 29, 23, 0.14);
+      }
+      .fullview-close {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        background: var(--ink);
+        color: var(--paper-2);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.3rem;
+        font-family: var(--mono);
+        transition:
+          transform 0.12s,
+          background 0.2s;
+        order: -1;
+      }
+      .fullview-close:hover {
+        transform: scale(1.08);
+        background: var(--accent);
+      }
+      .zoom-btn {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--ink);
+        color: var(--paper-2);
+        border: none;
+        cursor: pointer;
+        font-family: var(--mono);
+        font-size: 1.2rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition:
+          transform 0.12s,
+          background 0.2s;
+        user-select: none;
+      }
+      .zoom-btn:hover {
+        background: var(--accent);
+        transform: scale(1.08);
+      }
+      .zoom-btn:active {
+        transform: scale(0.94);
+      }
+      .zoom-reset {
+        font-size: 1rem;
+      }
+      .zoom-label {
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        color: var(--ink-faint);
+        letter-spacing: 0.06em;
+        text-align: center;
+        line-height: 1;
+      }
+      .fullview-img-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        max-width: 95vw;
+        max-height: 92vh;
+        overflow: hidden;
+      }
+      .fullview-img-wrap img {
+        display: block;
+        max-width: 95vw;
+        max-height: 92vh;
+        object-fit: contain;
+        border: 2px solid rgba(246, 241, 231, 0.18);
+        box-shadow: 0 0 60px rgba(0, 0, 0, 0.5);
+        transform: scale(1);
+        transform-origin: center center;
+        transition: transform 0.15s ease-out;
+        cursor: grab;
+      }
+      .fullview-img-wrap img.grabbing {
+        cursor: grabbing;
+        transition: none;
+      }
+      body.no-scroll {
+        overflow: hidden;
+      }
+      @media (max-width: 860px) {
+        .userflow-container {
+          padding: 10px;
+          border-left: none;
+          border-right: none;
+        }
+      }
+
       /* ---------- PROBLEM STATEMENT ---------- */
       .problem {
         background: var(--accent);
@@ -1009,7 +1578,7 @@
         font-size: clamp(1.8rem, 4.4vw, 3.4rem);
         font-weight: 500;
         line-height: 1.18;
-        max-width: 20ch;
+        max-width: 100%;
         margin: 26px auto 0;
         letter-spacing: -0.02em;
       }
@@ -1073,13 +1642,55 @@
         <span class="dot"></span>PARCEL&nbsp;/&nbsp;A CASE STUDY
       </div>
       <nav class="navlinks">
-        <a href="#process">Process</a>
-        <a href="#interviews">Interviews</a>
-        <a href="#observations">Observations</a>
-        <a href="#clusters">Clusters</a>
-        <a href="#persona">Persona</a>
-        <a href="#journey">Journey</a>
-        <a href="#problem">Problem</a>
+        <a class="main-link" data-target="process"><em>Process :</em></a>
+        <!-- Empathise -->
+        <div>
+          <a class="main-link" data-target="interviews">Empathise</a>
+          <div class="dropdown">
+            <a data-target="interviews">User Interview</a>
+          </div>
+        </div>
+        <!-- Define -->
+        <div>
+          <a class="main-link" data-target="observations">Define</a>
+          <div class="dropdown">
+            <a data-target="observations">Observation</a>
+            <a data-target="clusters">Affinity Mapping</a>
+            <a data-target="persona">Persona</a>
+            <a data-target="empathy">Empathy Map</a>
+            <a data-target="journey">User Journey Map</a>
+            <a data-target="problem">Problem</a>
+          </div>
+        </div>
+        <!-- Ideate -->
+        <div>
+          <a class="main-link" data-target="ideate">Ideate</a>
+          <div class="dropdown">
+            <a data-target="ideate">Brainstorming</a>
+            <a data-target="stories">User Stories</a>
+            <a data-target="ia">Information Architecture</a>
+            <a data-target="userflow">User Flow</a>
+          </div>
+        </div>
+        <!-- Wireframe (placeholder, scrolls to top) -->
+        <div>
+          <a class="main-link" data-target="wireframe">Wireframe</a>
+          <div class="dropdown">
+            <a data-target="wireframe">Mid-fidelity</a>
+          </div>
+        </div>
+        <!-- Prototype (placeholder) -->
+        <div>
+          <a class="main-link" data-target="top">Prototype</a>
+        </div>
+        <!-- Test (placeholder) -->
+        <div>
+          <a class="main-link" data-target="top">Test</a>
+        </div>
+        <!-- Design (placeholder) -->
+        <div>
+          <a class="main-link" data-target="top">Design</a>
+        </div>
       </nav>
     </div>
 
@@ -1090,46 +1701,16 @@
           <div class="stamp"><b>FRAGILE</b><span>HANDLE WITH CARE</span></div>
         </div>
         <div class="hero-eyebrow eyebrow reveal">
-          UX Research Case Study · Empathize → Define
+          UX Research Case Study · Empathize → Define → Ideate
         </div>
         <h1 class="reveal">
           The black hole between <em>“out for delivery”</em> and
           <em>“delivered.”</em>
         </h1>
-        <!-- <p class="hero-sub reveal">
-          A deep-dive into why small online sellers lose sleep — and trust —
-          over courier deliveries, and what they actually need at every step of
-          the journey.
-        </p> -->
-
-        <!--<div class="label reveal">
-          <div class="label-top">
-            <span class="mono">TRACKING&nbsp;·&nbsp;UX-2026-ARJUN</span>
-            <span class="barcode" aria-hidden="true"></span>
-          </div>
-          <div class="label-grid">
-            <div>
-              <div class="k">Discipline</div>
-              <div class="v">User Research</div>
-            </div>
-            <div>
-              <div class="k">Methods</div>
-              <div class="v">Interviews · Affinity Mapping</div>
-            </div>
-            <div>
-              <div class="k">Deliverables</div>
-              <div class="v">Persona · Empathy & Journey Maps</div>
-            </div>
-            <div>
-              <div class="k">Outcome</div>
-              <div class="v">A clear HMW Problem Statement</div>
-            </div>
-          </div>
-        </div> -->
       </div>
     </header>
 
-    <!-- ============ PROCESS ============ -->
+    <!-- ============ PROCESS / METHOD ============ -->
     <section class="process" id="process">
       <div class="wrap">
         <div class="eyebrow reveal">The Method</div>
@@ -1137,44 +1718,70 @@
           Empathy first. We let real frustrations shape the problem — not
           assumptions.
         </h2>
-        <div class="steps reveal">
-          <div class="step active">
-            <div class="n">01</div>
-            <h3>Interview</h3>
-            <p>
-              Open-ended conversations with senders about their last real
-              shipment.
-            </p>
-          </div>
-          <div class="step active">
-            <div class="n">02</div>
-            <h3>Observe</h3>
-            <p>
-              Capture raw quotes, then decode the underlying need behind each
-              one.
-            </p>
-          </div>
-          <div class="step active">
-            <div class="n">03</div>
-            <h3>Cluster</h3>
-            <p>
-              Affinity-map observations into themes and rank them by priority.
-            </p>
-          </div>
-          <div class="step active">
-            <div class="n">04</div>
-            <h3>Synthesize</h3>
-            <p>
-              Build a persona, empathy map and end-to-end journey of the
-              experience.
-            </p>
-          </div>
-          <div class="step active">
-            <div class="n">05</div>
-            <h3>Define</h3>
-            <p>
-              Frame one sharp “How Might We” to guide everything that follows.
-            </p>
+        <div class="steps-wrapper reveal">
+          <div class="steps">
+            <!-- Step 1: Empathise -->
+            <div class="step active">
+              <div class="n">01</div>
+              <h3>Empathise</h3>
+              <div class="step-desc">
+                <span class="sub">→</span>
+                <span class="sub-item">User Interview</span>
+              </div>
+            </div>
+            <!-- Step 2: Define -->
+            <div class="step active">
+              <div class="n">02</div>
+              <h3>Define</h3>
+              <div class="step-desc">
+                <span class="sub">→</span>
+                <span class="sub-item">Observation</span>
+                <span class="sub-item">Affinity Mapping</span>
+                <span class="sub-item">Persona</span>
+                <span class="sub-item">Empathy Map</span>
+                <span class="sub-item">User Journey Map</span>
+                <span class="sub-item">Problem</span>
+              </div>
+            </div>
+            <!-- Step 3: Ideate -->
+            <div class="step active">
+              <div class="n">03</div>
+              <h3>Ideate</h3>
+              <div class="step-desc">
+                <span class="sub">→</span>
+                <span class="sub-item">Brainstorming</span>
+                <span class="sub-item">User Stories</span>
+                <span class="sub-item">Information Architecture</span>
+                <span class="sub-item">User Flow</span>
+              </div>
+            </div>
+            <!-- Step 4: Wireframe -->
+            <div class="step active">
+              <div class="n">04</div>
+              <h3>Wireframe</h3>
+              <div class="step-desc">
+                <span class="sub">→</span>
+                <span class="sub-item">Low-Fidelity</span>
+              </div>
+            </div>
+            <!-- Step 5: Prototype -->
+            <div class="step active">
+              <div class="n">05</div>
+              <h3>Prototype</h3>
+              <div class="step-desc">
+                <span class="sub">→</span>
+                <span class="sub-item">Clickable Prototype</span>
+              </div>
+            </div>
+            <!-- Step 6: Test -->
+            <div class="step active">
+              <div class="n">06</div>
+              <h3>Test</h3>
+              <div class="step-desc">
+                <span class="sub">→</span>
+                <span class="sub-item">Usability Testing</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -1184,13 +1791,9 @@
     <section id="interviews">
       <div class="wrap">
         <div class="sec-tag reveal">
-          <span class="sec-num">01 / EMPATHIZE</span>
+          <span class="sec-num">01 / EMPATHISE</span>
         </div>
         <h2 class="sec-head reveal">User interviews</h2>
-        <!-- <p class="sec-intro reveal">
-          A semi-structured script that moves from warm-up to deep pain —
-          designed to surface stories, not opinions.
-        </p> -->
 
         <div class="themes">
           <div class="theme reveal">
@@ -1243,18 +1846,13 @@
 
     <div class="divider"></div>
 
-    <!-- ============ RAW OBSERVATIONS ============ -->
+    <!-- ============ OBSERVATIONS ============ -->
     <section id="observations">
       <div class="wrap">
         <div class="sec-tag reveal">
           <span class="sec-num">02 / DEFINE</span>
         </div>
         <h2 class="sec-head reveal">From raw observation to core need</h2>
-        <!--<p class="sec-intro reveal">
-          Every quote captured in the field was decoded into the underlying
-          feeling or need driving it — the bridge between what people
-          <em>say</em> and what they actually <em>need</em>.
-        </p> -->
 
         <div class="obs-list" id="obsList">
           <!-- FIRST 15 (visible) -->
@@ -1378,7 +1976,7 @@
             <span class="need">Transparency + real support</span>
           </div>
 
-          <!-- HIDDEN (revealed on View more) -->
+          <!-- HIDDEN -->
           <div class="obs hidden-obs">
             <span class="idx">S16</span>
             <div class="raw">
@@ -1551,11 +2149,6 @@
           <span class="sec-num">03 / DEFINE</span>
         </div>
         <h2 class="sec-head reveal">Affinity mapping: five clusters, ranked</h2>
-        <!--  <p class="sec-intro reveal">
-          Grouping the observations revealed five clear themes. Each carries a
-          user's own words as its headline — and a priority that tells us where
-          to fight first.
-        </p> -->
 
         <div class="clusters">
           <div class="cluster feature reveal">
@@ -1728,10 +2321,6 @@
           <span class="sec-num">04 / DEFINE</span>
         </div>
         <h2 class="sec-head reveal">Meet Arjun</h2>
-        <!--  <p class="sec-intro reveal">
-          One person who carries every frustration we heard — the small seller
-          whose reputation rides on a stranger he's never met.
-        </p>-->
 
         <div class="persona reveal">
           <div class="persona-side">
@@ -1798,10 +2387,6 @@
           <span class="sec-num">05 / DEFINE</span>
         </div>
         <h2 class="sec-head reveal">Empathy map</h2>
-        <!--    <p class="sec-intro reveal">
-          What Arjun says and does on the surface — and the anxious inner voice
-          underneath that we have to design for.
-        </p> -->
 
         <div class="emap reveal">
           <div class="emap-center">A</div>
@@ -1904,11 +2489,6 @@
           <span class="sec-num">06 / DEFINE</span>
         </div>
         <h2 class="sec-head reveal">The end-to-end journey</h2>
-        <!--  <p class="sec-intro reveal">
-          Seven stages, one emotional rollercoaster — from a neutral start, down
-          into a “worst moment,” then a sharp spike of relief that builds no
-          loyalty at all.
-        </p> -->
 
         <div class="jscroll reveal">
           <div class="jgrid">
@@ -1947,7 +2527,6 @@
                       />
                     </linearGradient>
                   </defs>
-                  <!-- gridlines: HIGH 40 / MID 100 / LOW 160 -->
                   <line
                     x1="0"
                     y1="40"
@@ -1972,7 +2551,6 @@
                     stroke="#211D17"
                     stroke-opacity=".07"
                   />
-                  <!-- column dividers at 200,400,...,1200 -->
                   <g stroke="#211D17" stroke-opacity=".07">
                     <line x1="200" y1="6" x2="200" y2="174" />
                     <line x1="400" y1="6" x2="400" y2="174" />
@@ -1981,7 +2559,6 @@
                     <line x1="1000" y1="6" x2="1000" y2="174" />
                     <line x1="1200" y1="6" x2="1200" y2="174" />
                   </g>
-                  <!-- centers: 100,300,500,700,900,1100,1300 -->
                   <path
                     d="M100,100 L300,134 L500,100 L700,150 L900,166 L1100,172 L1300,42 L1300,180 L100,180 Z"
                     fill="url(#cg)"
@@ -2154,12 +2731,391 @@
       </div>
     </section>
 
+    <div class="divider"></div>
+
+    <!-- ============ IDEATE · BRAINSTORM + CRAZY 8s ============ -->
+    <section id="ideate">
+      <div class="wrap">
+        <div class="sec-tag reveal">
+          <span class="sec-num">08 / IDEATE</span>
+        </div>
+        <h2 class="sec-head reveal">Brainstorming &amp; Crazy 8s</h2>
+
+        <div class="reveal">
+          <div class="ideas-lab">Brainstorm — raw idea dump</div>
+          <div class="ideas">
+            <span class="chip">All-courier price compare</span>
+            <span class="chip">Shareable live tracking</span>
+            <span class="chip">Delivery photo proof</span>
+            <span class="chip">2-hour human support</span>
+            <span class="chip">Smart packing guide</span>
+            <span class="chip">Proactive delay alerts</span>
+            <span class="chip">Customs code helper</span>
+            <span class="chip">One-tap rebook</span>
+            <span class="chip">Trust / rating score</span>
+            <span class="chip">In-chat buyer updates</span>
+            <span class="chip">One-tap damage claim</span>
+            <span class="chip">Saved package presets</span>
+            <span class="chip">Insurance at checkout</span>
+            <span class="chip">Pickup ETA + courier photo</span>
+          </div>
+        </div>
+
+        <div class="c8grid reveal">
+          <div class="c8 vote">
+            <div class="num">01</div>
+            <h4>One-Screen Price Compare</h4>
+            <p>
+              Every courier's full, all-in price ranked side by side before you
+              commit.
+            </p>
+          </div>
+          <div class="c8 vote">
+            <div class="num">02</div>
+            <h4>Shareable Live Link</h4>
+            <p>
+              Buyer watches the parcel move in real time — panic messages stop.
+            </p>
+          </div>
+          <div class="c8">
+            <div class="num">03</div>
+            <h4>Auto Photo Proof</h4>
+            <p>
+              Delivery photo pushed to seller and buyer the instant it's handed
+              over.
+            </p>
+          </div>
+          <div class="c8 vote">
+            <div class="num">04</div>
+            <h4>2-Hour Human Desk</h4>
+            <p>
+              One-tap problem report routed to a real person, guaranteed reply
+              window.
+            </p>
+          </div>
+          <div class="c8">
+            <div class="num">05</div>
+            <h4>Smart Packing Guide</h4>
+            <p>
+              Item-type packing steps plus a clear damage policy shown up front.
+            </p>
+          </div>
+          <div class="c8">
+            <div class="num">06</div>
+            <h4>Delay Radar</h4>
+            <p>
+              Proactive push the moment a parcel stalls — before the seller
+              wonders.
+            </p>
+          </div>
+          <div class="c8">
+            <div class="num">07</div>
+            <h4>Customs Autopilot</h4>
+            <p>
+              Guided HS codes and a duty estimate so recipients never get a
+              surprise bill.
+            </p>
+          </div>
+          <div class="c8">
+            <div class="num">08</div>
+            <h4>One-Tap Rebook</h4>
+            <p>
+              Repeat the last successful shipment in a tap — turn relief into
+              loyalty.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ IDEATE · USER STORIES ============ -->
+    <section id="stories">
+      <div class="wrap">
+        <div class="sec-tag reveal">
+          <span class="sec-num">09 / IDEATE</span>
+        </div>
+        <h2 class="sec-head reveal">User stories</h2>
+
+        <div class="stories">
+          <div class="story reveal">
+            <div class="tags">
+              <span class="who">Seller</span>
+            </div>
+            <p>
+              <span class="lead">As a</span> seller,
+              <span class="lead">I want</span> to share a live tracking link
+              with my buyer, <span class="lead">so that</span>
+              <span class="so">
+                they can watch the parcel themselves instead of messaging
+                me.</span
+              >
+            </p>
+          </div>
+          <div class="story reveal">
+            <div class="tags">
+              <span class="who">Seller</span>
+            </div>
+            <p>
+              <span class="lead">As a</span> seller,
+              <span class="lead">I want</span> an automatic delivery photo,
+              <span class="lead">so that</span>
+              <span class="so"> I have proof the parcel arrived safely.</span>
+            </p>
+          </div>
+          <div class="story reveal">
+            <div class="tags">
+              <span class="who">Buyer</span>
+            </div>
+            <p>
+              <span class="lead">As a</span> buyer,
+              <span class="lead">I want</span> clear, continuous tracking
+              updates, <span class="lead">so that</span>
+              <span class="so">
+                I trust the seller even before the parcel arrives.</span
+              >
+            </p>
+          </div>
+          <div class="story reveal">
+            <div class="tags">
+              <span class="who">Seller</span>
+            </div>
+            <p>
+              <span class="lead">As a</span> seller,
+              <span class="lead">I want</span> a proactive alert when a parcel
+              stalls, <span class="lead">so that</span>
+              <span class="so">
+                I can reassure my buyer before they panic.</span
+              >
+            </p>
+          </div>
+          <div class="story reveal">
+            <div class="tags">
+              <span class="who">Seller</span>
+            </div>
+            <p>
+              <span class="lead">As a</span> seller,
+              <span class="lead">I want</span> to report damage in one tap and
+              reach a real person, <span class="lead">so that</span>
+              <span class="so"> I'm not stuck in automated loops.</span>
+            </p>
+          </div>
+          <div class="story reveal">
+            <div class="tags">
+              <span class="who">Seller</span>
+            </div>
+            <p>
+              <span class="lead">As a</span> seller,
+              <span class="lead">I want</span> every courier's full price on one
+              screen, <span class="lead">so that</span>
+              <span class="so"> I never get surprised by hidden fees.</span>
+            </p>
+          </div>
+          <div class="story reveal">
+            <div class="tags">
+              <span class="who">Seller</span>
+            </div>
+            <p>
+              <span class="lead">As a</span> seller,
+              <span class="lead">I want</span> guided customs codes,
+              <span class="lead">so that</span>
+              <span class="so">
+                my recipient never receives a surprise bill.</span
+              >
+            </p>
+          </div>
+          <div class="story reveal">
+            <div class="tags">
+              <span class="who">Seller</span>
+            </div>
+            <p>
+              <span class="lead">As a</span> seller,
+              <span class="lead">I want</span> packing guidance for my item
+              type, <span class="lead">so that</span>
+              <span class="so"> I'm never blamed for damage.</span>
+            </p>
+          </div>
+          <div class="story reveal">
+            <div class="tags">
+              <span class="who">Seller</span>
+            </div>
+            <p>
+              <span class="lead">As a</span> seller,
+              <span class="lead">I want</span> to rebook my last shipment in one
+              tap, <span class="lead">so that</span>
+              <span class="so"> a good experience becomes a habit.</span>
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ============ IDEATE · INFORMATION ARCHITECTURE ============ -->
+    <section id="ia">
+      <div class="wrap">
+        <div class="sec-tag reveal">
+          <span class="sec-num">10 / IDEATE</span>
+        </div>
+        <h2 class="sec-head reveal">Information architecture</h2>
+
+        <div class="reveal">
+          <div class="ia-root">
+            <div class="node0">Parcel — Mobile App</div>
+          </div>
+          <div class="ia-stem"></div>
+          <div class="ia-grid">
+            <div class="ia-branch">
+              <div class="bhead"><span class="bnum">01</span> Send</div>
+              <ul>
+                <li>Book a Pickup</li>
+                <li>Price Comparison</li>
+                <li>Price Lock</li>
+                <li>Packing Guide</li>
+                <li>Photo Upload Before Handover</li>
+                <li>Damage Policy</li>
+                <li>Saved Addresses</li>
+                <li>Payment Methods</li>
+              </ul>
+            </div>
+            <div class="ia-branch">
+              <div class="bhead"><span class="bnum">02</span> Track</div>
+              <ul>
+                <li>Courier Profile &amp; Verification</li>
+                <li>OTP Verification at Pickup</li>
+                <li>Live Pickup ETA</li>
+                <li>Pickup Confirmation Notification</li>
+                <li>Real-Time Tracking Screen</li>
+                <li>Shareable Tracking Link</li>
+                <li>Proactive Delay Notification</li>
+                <li>Delivery Photo Confirmation</li>
+                <li>OTP Delivery Confirmation</li>
+                <li>Raise an Issue</li>
+              </ul>
+            </div>
+            <div class="ia-branch">
+              <div class="bhead">
+                <span class="bnum">03</span> My Deliveries
+              </div>
+              <ul>
+                <li>Delivery Summary Screen</li>
+                <li>Order History</li>
+              </ul>
+            </div>
+
+            <div class="ia-branch">
+              <div class="bhead"><span class="bnum">04</span> Help</div>
+              <ul>
+                <li>Raise an Issue</li>
+                <li>Human Support Chat</li>
+                <li>Damage Policy</li>
+              </ul>
+            </div>
+            <div class="ia-branch">
+              <div class="bhead"><span class="bnum">05</span> Account</div>
+              <ul>
+                <li>Saved Addresses</li>
+                <li>Payment Methods</li>
+                <li>Account Settings</li>
+                <li>Notifications Settings</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ IDEATE · User Flow ============ -->
+    <section id="userflow">
+      <div class="wrap">
+        <div class="sec-tag reveal">
+          <span class="sec-num">11 / IDEATE</span>
+        </div>
+        <h2 class="sec-head reveal">User Flow</h2>
+        <div class="reveal">
+          <div class="userflow-container" id="userflowContainer">
+            <img
+              src="../Desktop/userflow.jpg"
+              alt="User flow diagram showing the steps a user takes to send a parcel, track it, and resolve issues."
+              id="userflowImg"
+              onerror="
+                this.onerror = null;
+                this.parentNode.innerHTML =
+                  '<div style=\'padding:40px;text-align:center;font-family:monospace;color:#8a8170;\'>User flow image will appear here.<br>Place your image at ../Desktop/userflow.jpg</div>';
+              "
+            />
+            <button
+              class="fullview-btn"
+              id="fullviewBtn"
+              title="View full size"
+            >
+              ⛶
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Full-view overlay -->
+    <div class="fullview-overlay" id="fullviewOverlay">
+      <div class="fullview-toolbar" id="fullviewToolbar">
+        <button
+          class="fullview-close"
+          id="fullviewClose"
+          title="Close full view"
+        >
+          ✕
+        </button>
+        <button class="zoom-btn" id="zoomIn" title="Zoom in 10%">+</button>
+        <span class="zoom-label" id="zoomLabel">100%</span>
+        <button class="zoom-btn" id="zoomOut" title="Zoom out 10%">−</button>
+        <button class="zoom-btn zoom-reset" id="zoomReset" title="Reset zoom">
+          ↺
+        </button>
+      </div>
+
+      <div class="fullview-img-wrap" id="fullviewImgWrap">
+        <img
+          src="../Desktop/userflow.jpg"
+          alt="User flow diagram full view"
+          id="fullviewImg"
+        />
+      </div>
+    </div>
+    <div class="divider"></div>
+    <!-- ============ Wireframe ============ -->
+    <section id="wireframe">
+      <div class="wrap">
+        <div class="sec-tag reveal">
+          <span class="sec-num">06 / WIREFRAME</span>
+        </div>
+        <h2 class="sec-head reveal">Mid‑Fidelity Wireframes</h2>
+        <div class="reveal">
+          <div class="userflow-container">
+            <img
+              src="../Desktop/wireframe2.png"
+              alt="Mid-fidelity wireframe showing the parcel delivery app layout"
+              onerror="
+                this.onerror = null;
+                this.parentNode.innerHTML =
+                  '<div style=\'padding:40px;text-align:center;font-family:monospace;color:#8a8170;\'>Wireframe image will appear here.<br>Place your image at ../Desktop/wireframe.jpg</div>';
+              "
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
     <!-- ============ FOOTER ============ -->
     <footer>
       <div class="wrap foot">
         <div>
           <div class="mono" style="margin-bottom: 10px">END OF CASE STUDY</div>
-          <h3>Empathize → Define, delivered.</h3>
+          <h3>Empathize → Define → Ideate, delivered.</h3>
         </div>
         <div class="stamp"><b>DELIVERED</b><span>SIGNED · RECEIVED</span></div>
       </div>
@@ -2232,6 +3188,223 @@
               .getElementById("observations")
               .scrollIntoView({ behavior: "smooth" });
           }
+        });
+      }
+
+      // ----- NAVIGATION: smooth scroll for main links & dropdowns -----
+      document.querySelectorAll(".navlinks a[data-target]").forEach((link) => {
+        link.addEventListener("click", function (e) {
+          e.preventDefault();
+          const targetId = this.getAttribute("data-target");
+          if (targetId === "top") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+            return;
+          }
+          const targetEl = document.getElementById(targetId);
+          if (targetEl) {
+            const topbarHeight = document.querySelector(".topbar").offsetHeight;
+            const targetPos =
+              targetEl.getBoundingClientRect().top +
+              window.pageYOffset -
+              topbarHeight -
+              12;
+            window.scrollTo({ top: targetPos, behavior: "smooth" });
+          }
+        });
+      });
+
+      // ----- User flow full-view toggle + zoom -----
+      const fullviewBtn = document.getElementById("fullviewBtn");
+      const fullviewOverlay = document.getElementById("fullviewOverlay");
+      const fullviewClose = document.getElementById("fullviewClose");
+      const fullviewImg = document.getElementById("fullviewImg");
+      const fullviewImgWrap = document.getElementById("fullviewImgWrap");
+      const userflowImg = document.getElementById("userflowImg");
+      const body = document.body;
+
+      const zoomInBtn = document.getElementById("zoomIn");
+      const zoomOutBtn = document.getElementById("zoomOut");
+      const zoomResetBtn = document.getElementById("zoomReset");
+      const zoomLabel = document.getElementById("zoomLabel");
+
+      let currentZoom = 1;
+      const ZOOM_STEP = 0.1;
+      const ZOOM_MIN = 0.3;
+      const ZOOM_MAX = 4;
+      let isDragging = false;
+      let dragStartX = 0;
+      let dragStartY = 0;
+      let panX = 0;
+      let panY = 0;
+
+      function updateZoom() {
+        fullviewImg.style.transform = `scale(${currentZoom}) translate(${panX / currentZoom}px, ${panY / currentZoom}px)`;
+        zoomLabel.textContent = Math.round(currentZoom * 100) + "%";
+        zoomOutBtn.style.opacity = currentZoom <= ZOOM_MIN ? "0.35" : "1";
+        zoomInBtn.style.opacity = currentZoom >= ZOOM_MAX ? "0.35" : "1";
+        zoomOutBtn.style.pointerEvents =
+          currentZoom <= ZOOM_MIN ? "none" : "auto";
+        zoomInBtn.style.pointerEvents =
+          currentZoom >= ZOOM_MAX ? "none" : "auto";
+      }
+
+      function resetZoom() {
+        currentZoom = 1;
+        panX = 0;
+        panY = 0;
+        updateZoom();
+      }
+
+      if (fullviewBtn && fullviewOverlay) {
+        fullviewBtn.addEventListener("click", () => {
+          if (userflowImg && userflowImg.src) {
+            fullviewImg.src = userflowImg.src;
+          }
+          resetZoom();
+          fullviewOverlay.classList.add("open");
+          body.classList.add("no-scroll");
+        });
+
+        function closeFullview() {
+          fullviewOverlay.classList.remove("open");
+          body.classList.remove("no-scroll");
+          resetZoom();
+        }
+
+        fullviewClose.addEventListener("click", closeFullview);
+        fullviewOverlay.addEventListener("click", (e) => {
+          if (e.target === fullviewOverlay) closeFullview();
+        });
+        document.addEventListener("keydown", (e) => {
+          if (
+            e.key === "Escape" &&
+            fullviewOverlay.classList.contains("open")
+          ) {
+            closeFullview();
+          }
+        });
+
+        zoomInBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (currentZoom >= ZOOM_MAX) return;
+          currentZoom = Math.min(currentZoom + ZOOM_STEP, ZOOM_MAX);
+          updateZoom();
+        });
+
+        zoomOutBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          if (currentZoom <= ZOOM_MIN) return;
+          currentZoom = Math.max(currentZoom - ZOOM_STEP, ZOOM_MIN);
+          if (currentZoom <= 1) {
+            panX = 0;
+            panY = 0;
+          }
+          updateZoom();
+        });
+
+        zoomResetBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          resetZoom();
+        });
+
+        fullviewImgWrap.addEventListener(
+          "wheel",
+          (e) => {
+            e.preventDefault();
+            const dir = e.deltaY < 0 ? 1 : -1;
+            if (dir > 0 && currentZoom >= ZOOM_MAX) return;
+            if (dir < 0 && currentZoom <= ZOOM_MIN) return;
+
+            const rect = fullviewImgWrap.getBoundingClientRect();
+            const mouseX = e.clientX - rect.left - rect.width / 2;
+            const mouseY = e.clientY - rect.top - rect.height / 2;
+
+            const prevZoom = currentZoom;
+            currentZoom = Math.min(
+              ZOOM_MAX,
+              Math.max(ZOOM_MIN, currentZoom + dir * ZOOM_STEP),
+            );
+            const scaleChange = currentZoom / prevZoom;
+            panX = mouseX * (1 - scaleChange) + panX * scaleChange;
+            panY = mouseY * (1 - scaleChange) + panY * scaleChange;
+
+            if (currentZoom <= 1) {
+              panX = 0;
+              panY = 0;
+            }
+            updateZoom();
+          },
+          { passive: false },
+        );
+
+        fullviewImgWrap.addEventListener("mousedown", (e) => {
+          if (currentZoom <= 1) return;
+          if (e.target.tagName === "BUTTON") return;
+          e.preventDefault();
+          isDragging = true;
+          fullviewImg.classList.add("grabbing");
+          dragStartX = e.clientX - panX;
+          dragStartY = e.clientY - panY;
+        });
+
+        window.addEventListener("mousemove", (e) => {
+          if (!isDragging) return;
+          panX = e.clientX - dragStartX;
+          panY = e.clientY - dragStartY;
+          updateZoom();
+        });
+
+        window.addEventListener("mouseup", () => {
+          if (isDragging) {
+            isDragging = false;
+            fullviewImg.classList.remove("grabbing");
+          }
+        });
+
+        let lastPinchDist = 0;
+        fullviewImgWrap.addEventListener(
+          "touchstart",
+          (e) => {
+            if (e.touches.length === 2) {
+              lastPinchDist = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY,
+              );
+            }
+          },
+          { passive: true },
+        );
+
+        fullviewImgWrap.addEventListener(
+          "touchmove",
+          (e) => {
+            if (e.touches.length === 2) {
+              e.preventDefault();
+              const dist = Math.hypot(
+                e.touches[0].clientX - e.touches[1].clientX,
+                e.touches[0].clientY - e.touches[1].clientY,
+              );
+              if (lastPinchDist > 0) {
+                const delta = (dist - lastPinchDist) / 200;
+                const prevZoom = currentZoom;
+                currentZoom = Math.min(
+                  ZOOM_MAX,
+                  Math.max(ZOOM_MIN, currentZoom + delta),
+                );
+                if (currentZoom <= 1) {
+                  panX = 0;
+                  panY = 0;
+                }
+                updateZoom();
+              }
+              lastPinchDist = dist;
+            }
+          },
+          { passive: false },
+        );
+
+        fullviewImgWrap.addEventListener("touchend", () => {
+          lastPinchDist = 0;
         });
       }
     </script>
