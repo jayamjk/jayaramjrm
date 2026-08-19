@@ -17,7 +17,7 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
 
       const embedUrl = btn.dataset.embed;
-      const fileUrl = btn.dataset.file;
+      const fileUrl = btn.dataset.file || embedUrl.replace("embed.figma.com", "www.figma.com");
 
       const overlay = document.getElementById("figmaOverlay");
       const iframe = document.getElementById("figmaFrame");
